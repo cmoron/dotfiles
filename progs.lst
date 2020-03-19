@@ -36,3 +36,6 @@ pulseaudio
 alsa-utils
 avahi
 man
+jdk-openjdk
+which
+tree
