@@ -1,1 +1,13 @@
+# Sourced by xinitrc
+
+# Set layout fr
 setxkbmap fr
+
+# Speed xrate up
+xset r rate 250 30 & 
+
+# Set wallpaper
+xwallpaper --zoom ~/.config/wall.jpg
+
+# Enable bluetooth
+bluetoothctl power on

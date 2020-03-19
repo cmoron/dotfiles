@@ -1,0 +1,6 @@
+[alias]
+    tree = log --oneline --graph --decorate --all
+
+[user]
+	email = cyril.moron@gmail.com
+	name = Cyril Moron
