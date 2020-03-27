@@ -1,5 +1,9 @@
 # Profile file. Runs on login. Environmental variables are set here.
 
+
+# Source ~/.bashrc if exists
+[[ -f "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
+
 # Default config home dir
 export XDG_CONFIG_HOME="${HOME}/.config"
 
