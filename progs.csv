@@ -46,7 +46,7 @@ alsa-utils, Advanced Linux Sound Architecture - Utilities
 avahi, Service Discovery for Linux using mDNS/DNS-SD -- compatible with Bonjour
 unzip, For extracting and viewing files in .zip archives
 atool, A script for managing file archives of various types
-ranger, Simple, vim-like file manager
+ranger, Simple vim-like file manager
 mediainfo, Supplies technical and tag information about a video or audio file
 slock, The Simple X display locker
 zathura, Document viewer (PDF)
