@@ -22,6 +22,9 @@ shopt -s histappend
 HISTSIZE=
 HISTFILESIZE=
 
+# Disable less history file (.lesshst)
+export LESSHISTFILE=-
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
