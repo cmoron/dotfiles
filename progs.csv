@@ -39,7 +39,7 @@ lynx, A text browser for the World Wide Web
 firefox, Standalone web browser from mozilla.org
 bluez, Daemons for the bluetooth protocol stack
 bluez-utils, Development and debugging utilities for the bluetooth protocol stack
-pulseaudio, A featureful, general-purpose sound server
+pulseaudio, A featureful general-purpose sound server
 pulseaudio-alsa, ALSA Configuration for PulseAudio
 pulseaudio-bluetooth ,Bluetooth support for PulseAudio
 alsa-utils, Advanced Linux Sound Architecture - Utilities
