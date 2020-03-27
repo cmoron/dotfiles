@@ -1,0 +1,53 @@
+man-db, A utility for reading man pages
+git, The fast distributed version control system
+vim, Vi Improved a highly configurable improved version of the vi text editor
+gvim, Vim with GUI
+openssh, Connectivity tool for remote login with SSH protocol
+wget, Network utility to retrieve files from the Web
+tree, A directory listing program displaying a depth indented list of files
+which, A utility to show the full path of commands
+networkmanager, Program for providing detection and configuration for systems to automatically connect to networks
+nm-connection-editor, NetworkManager GUI connection editor and widgets
+nfs-utils, Support programs for Network File Systems
+ntfs-3g, Open source implementation of Microsoft NTFS
+usbutils, USB Device Utilities
+python-pip, The PyPA recommended tool for installing Python packages
+extra/jdk-openjdk, OpenJDK Java development kit
+network-manager-applet, Applet for managing network connections
+nvidia, NVIDIA drivers for linux
+nvidia-utils, NVIDIA drivers utilities
+xorg-server, Xorg X server
+xorg-xinit, X.Org initialisation program
+xorg-xrandr, Primitive command line interface to RandR extension
+xorg-xdpyinfo, Display information utility for X
+xorg-xset, User preference utility for X
+xterm, X Terminal Emulator
+xcompmgr, Simple composite manager
+i3-gaps, A fork of i3wm tiling window manager with more features
+i3status, Generates status bar to use with i3bar dzen2 or xmobar
+i3blocks, Define blocks for your i3bar status line
+dmenu, Generic menu for X
+noto-fonts-emoji, Google Noto emoji fonts
+xwallpaper, Wallpaper setting utility for X
+python-pywal, Generate and change color-schemes on the fly.
+sxiv, Simple X Image Viewer
+feh, Fast and light imlib2-based image viewer
+kitty, A modern hackable featureful OpenGL-based terminal emulator
+fish, Smart and user friendly shell intended mostly for interactive use
+fzf, Command-line fuzzy finder
+lynx, A text browser for the World Wide Web
+firefox, Standalone web browser from mozilla.org
+bluez, Daemons for the bluetooth protocol stack
+bluez-utils, Development and debugging utilities for the bluetooth protocol stack
+pulseaudio, A featureful, general-purpose sound server
+pulseaudio-alsa, ALSA Configuration for PulseAudio
+pulseaudio-bluetooth ,Bluetooth support for PulseAudio
+alsa-utils, Advanced Linux Sound Architecture - Utilities
+avahi, Service Discovery for Linux using mDNS/DNS-SD -- compatible with Bonjour
+unzip, For extracting and viewing files in .zip archives
+atool, A script for managing file archives of various types
+ranger, Simple, vim-like file manager
+mediainfo, Supplies technical and tag information about a video or audio file
+slock, The Simple X display locker
+zathura, Document viewer (PDF)
+zathura-pdf-mupdf, PDF support for zathura
