@@ -1,0 +1,17 @@
+command=~/.local/bin/statusbar/$BLOCK_NAME
+separator_block_width=15
+markup=pango
+
+[volume]
+interval=once
+signal=10
+
+[battery]
+interval=5
+
+[clock]
+label=📅
+interval=1
+
+[internet]
+interval=10

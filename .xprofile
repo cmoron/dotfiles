@@ -7,10 +7,13 @@ setxkbmap fr
 xset r rate 250 30 & 
 
 # Set wallpaper
-xwallpaper --zoom ~/.config/wall.jpg
+setbg ~/.config/wall.jpg
 
 # xcompmgr for transparency
 xcompmgr &
 
 # Enable bluetooth
 bluetoothctl power on
+
+# Notification daemon
+dunst &
