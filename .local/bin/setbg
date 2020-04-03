@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -f "$1" ] && cp "$1" ~/.config/wall.jpg
+
+# If pywal is installed, use it.
+type wal >/dev/null 2>&1 && {
+    wal -c
+    wal -s -i ~/.config/wall.jpg
+}
+
+xwallpaper --zoom ~/.config/wall.jpg
