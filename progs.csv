@@ -54,5 +54,6 @@ zathura-pdf-mupdf, PDF support for zathura
 nodejs, Evented I/O for V8 javascript
 npm, A package manager for javascript
 apache, A high performance Unix-based HTTP server
+libnotify, Library for sending desktop notifications
 dunst, Customizable and lightweight notification-daemon
 acpi, Client for battery, power, and thermal readings
