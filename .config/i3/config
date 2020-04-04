@@ -182,9 +182,17 @@ bindsym $mod+r mode "resize"
 bar {
     font pango:Hack 14
     status_command i3blocks
+    i3bar_command i3bar --transparency
     position top
     mode dock
     modifier None
+    colors {
+        background "#0a0a0a75"
+        focused_workspace #ebdbb2 #663300 #ebdbb2
+        active_workspace #331a00 #663300 #ebdbb2
+        inactive_workspace #ebdbb2 #aa6600 #ebdbb2
+        urgent_workspace #eb709b #eb709b #ffffff
+    }
 }
 
 bindsym $mod+s gaps inner current plus 5
@@ -193,7 +201,6 @@ bindsym $mod+Shift+t gaps inner current set 15; gaps outer current set 15
 
 exec --no-startup-id pactl load-module module-bluetooth-policy
 exec --no-startup-id pactl load-module module-bluetooth-discover
-
 
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 
