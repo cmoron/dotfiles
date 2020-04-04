@@ -51,3 +51,8 @@ mediainfo, Supplies technical and tag information about a video or audio file
 slock, The Simple X display locker
 zathura, Document viewer (PDF)
 zathura-pdf-mupdf, PDF support for zathura
+nodejs, Evented I/O for V8 javascript
+npm, A package manager for javascript
+apache, A high performance Unix-based HTTP server
+dunst, Customizable and lightweight notification-daemon
+acpi, Client for battery, power, and thermal readings
