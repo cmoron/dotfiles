@@ -10,7 +10,6 @@ signal=10
 interval=5
 
 [clock]
-label=📅
 interval=1
 
 [internet]
