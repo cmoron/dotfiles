@@ -8,6 +8,10 @@ case $- in
       *) return;;
 esac
 
+if [[ -f /etc/bash.bashrc ]]; then
+    . /etc/bash.bashrc
+fi
+
 # cd in directory by typing the directory name
 shopt -s autocd
 
