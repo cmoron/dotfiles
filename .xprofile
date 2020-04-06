@@ -4,7 +4,7 @@
 setxkbmap fr
 
 # Speed xrate up
-xset r rate 250 30 & 
+xset r rate 250 30 &
 
 # Set wallpaper
 setbg ~/.config/wall.jpg

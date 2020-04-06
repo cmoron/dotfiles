@@ -5,4 +5,3 @@
 [ -f ~/.xprofile ] && . ~/.xprofile
 
 exec i3
-bluetoothctl power on
