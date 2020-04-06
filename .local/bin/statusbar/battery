@@ -29,7 +29,8 @@ for battery in /sys/class/power_supply/BAT?; do
     [ -z $warn ] && warn=" "
 
     remaining=""
-    [ "$status" = "Charging" || "$capacity" = 100 ] && color="#00ff00"
+    [ "$status" = "Charging" ] && color="#00ff00"
+    [ "$capacity" = 100 ] && status="Full"
 
     capacity="<span color=\""$color"\">$capacity%</span>"
 
