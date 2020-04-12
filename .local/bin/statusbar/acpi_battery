@@ -37,7 +37,7 @@ for battery in $acpi_res; do
         warn="❗"
     fi
 
-    [ -z $warn ] && warn=" "
+    [ -z $warn ] && warn=""
 
     [ "$status" = "Charging" ] && color="#00ff00"
     [ "$capacity" = 100 ] && status="Full"

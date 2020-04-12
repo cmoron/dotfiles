@@ -26,7 +26,7 @@ for battery in /sys/class/power_supply/BAT?; do
         warn="❗"
     fi
 
-    [ -z $warn ] && warn=" "
+    [ -z $warn ] && warn=""
 
     remaining=""
     [ "$status" = "Charging" ] && color="#00ff00"
