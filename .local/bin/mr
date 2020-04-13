@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+
+ERR_CODE=1
+GIT_BIN="git"
+GIT_DIR=".git"
+
+error() {
+    >&2 echo "$1"
+    exit $ERR_CODE
+}
+
+main() {
+
+    if (( $# != 2 )); then
+        error "2 parametere required: ROOT_PATH, GIT_CMD"
+    fi
+
+    local root_dir="$1"
+    local git_cmd="$2"
+    local current_dir="$PWD"
+
+    if [[ ! -d "$root_dir" ]]; then
+        error "$root_dir does not exists or is not a directory"
+    fi
+
+    for git_dir in $(find "$root_dir" -type d -name ".git"); do
+        local repo=$(realpath ${git_dir}/..)
+        cd "$repo"
+        echo "************************************************"
+        echo "$repo"
+        echo "************************************************"
+        $GIT_BIN $git_cmd
+
+        cd "$current_dir"
+    done
+}
+
+main "$@"
