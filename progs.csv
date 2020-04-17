@@ -57,3 +57,9 @@ apache, A high performance Unix-based HTTP server
 libnotify, Library for sending desktop notifications
 dunst, Customizable and lightweight notification-daemon
 acpi, Client for battery, power, and thermal readings
+extra/mesa-demos,Mesa demos and tools incl. glxinfo + glxgears
+nvidia-prime,NVIDIA Prime Render Offload configuration and utilities
+docker,Pack ship and run any application as a lightweight container
+ncdu,Disk usage analyzer with an ncurses interface
+yarn,Fast reliable and secure dependency management
+httpie,cURL for humans
