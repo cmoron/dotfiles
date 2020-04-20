@@ -42,6 +42,7 @@ bindsym $mod+Return exec $TERMINAL
 
 # start browser
 bindsym $mod+shift+w exec $BROWSER
+bindsym $mod+w exec $BROWSER
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -179,6 +180,7 @@ bindsym $mod+r mode "resize"
     #mode dock
     #modifier None
 #}
+
 bar {
     font pango:Hack 14
     status_command i3blocks
@@ -188,10 +190,28 @@ bar {
     modifier None
     colors {
         background "#0a0a0a75"
-        focused_workspace #ebdbb2 #663300 #ebdbb2
-        active_workspace #331a00 #663300 #ebdbb2
-        inactive_workspace #ebdbb2 #aa6600 #ebdbb2
-        urgent_workspace #eb709b #eb709b #ffffff
+        set_from_resource $c1 color1
+        set_from_resource $c2 color2
+        set_from_resource $c4 color4
+        set_from_resource $c7 color7
+        set_from_resource $c9 color0
+        set_from_resource $c10 color10
+        set_from_resource $c11 color11
+        set_from_resource $c12 color12
+        set_from_resource $c13 color13
+        set_from_resource $c14 color14
+        set_from_resource $c15 color15
+
+        focused_workspace $c4 $c2 $c7
+        inactive_workspace $c1 $c7 $c9
+        active_workspace $c4 $c2 $c9
+        urgent_workspace #a00000 #dd5555 $c0
+
+        # mnc manual colors: do not delete
+        #focused_workspace #ebdbb2 #663300 #ebdbb2
+        #active_workspace #331a00 #663300 #ebdbb2
+        #inactive_workspace #ebdbb2 #aa6600 #ebdbb2
+        #urgent_workspace #eb709b #eb709b #ffffff
     }
 }
 
