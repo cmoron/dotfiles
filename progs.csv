@@ -63,3 +63,4 @@ docker,Pack ship and run any application as a lightweight container
 ncdu,Disk usage analyzer with an ncurses interface
 yarn,Fast reliable and secure dependency management
 httpie,cURL for humans
+bash-completion,Programmable completion for the bash shell
