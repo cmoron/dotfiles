@@ -1,4 +1,7 @@
-# Sourced by xinitrc
+# Sourced by .xinitrc or by graphical launchers
+
+# Launch simple x hotkey daemon
+sxhkd &
 
 # Set layout fr
 setxkbmap fr
