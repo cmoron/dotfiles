@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+while read file
+do
+    case "$1" in
+        "w")
+            setbg "$file" &
+            notify-send "setbg called on $file"
+            ;;
+    esac
+done
