@@ -66,3 +66,5 @@ ncdu,Disk usage analyzer with an ncurses interface
 yarn,Fast reliable and secure dependency management
 httpie,cURL for humans
 bash-completion,Programmable completion for the bash shell
+cmake,A cross-platform open-source make system
+ripgrep,A search tool that combines the usability of ag with the raw speed of grep
