@@ -58,6 +58,7 @@ alias l='ls -CF'
 alias lla='ls -lAh'
 alias p="sudo pacman"
 alias vi=$EDITOR
+alias g="git"
 
 # Git prompt and completion source
 if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
