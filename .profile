@@ -1,6 +1,5 @@
 # Profile file. Runs on login. Environmental variables are set here.
 
-
 # Source ~/.bashrc if exists
 [[ -f "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
 

@@ -1,5 +1,6 @@
 [alias]
     tree = log --oneline --graph --decorate --all
+    b = branch --all -vv
 
 [user]
 	email = cyril.moron@gmail.com
