@@ -69,6 +69,9 @@ if [ -f "/usr/share/git/completion/git-completion.bash" ]; then
     . "/usr/share/git/completion/git-completion.bash"
 fi
 
+# yarn path
+export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
+
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"
 export COLOR_GRE="\[\e[92m\]"
