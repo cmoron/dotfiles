@@ -54,4 +54,4 @@ done
 
 IFS=$ORG_IFS
 
-echo $res
+echo "$res"

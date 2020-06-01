@@ -32,8 +32,9 @@ main() {
         error "$root_dir does not exists or is not a directory"
     fi
 
-    for project in $(find "$root_dir" -type d -name $GIT_DIR); do
-        local repo=$(realpath ${project}/..)
+    while read -r project; do
+        local repo
+        repo=$(realpath "${project}"/..)
         cd "$repo"
         echo "************************************************"
         echo "$repo"
@@ -41,7 +42,7 @@ main() {
         $GIT_BIN $git_cmd
 
         cd "$current_dir"
-    done
+    done < <(find "$root_dir" -type d -name $GIT_DIR)
 }
 
 main "$@"
