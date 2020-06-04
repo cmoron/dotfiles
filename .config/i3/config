@@ -3,10 +3,11 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 # #---Basic Definitions---# #
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 0
 gaps inner 5
 gaps outer 5
 set $mod Mod4
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -158,10 +159,10 @@ mode "resize" {
         bindsym semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
+        bindsym Left resize shrink width 1 px or 1 ppt
+        bindsym Down resize grow height 1 px or 1 ppt
+        bindsym Up resize shrink height 1 px or 1 ppt
+        bindsym Right resize grow width 1 px or 1 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
