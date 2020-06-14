@@ -6,8 +6,8 @@ markup=pango
 interval=once
 signal=10
 
-#[battery]
-#interval=5
+[battery]
+interval=5
 
 [acpi_battery]
 interval=5

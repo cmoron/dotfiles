@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 case $BLOCK_BUTTON in
-    3) pgrep -x dunst >/dev/null && notify-send "🔋 Battery module" "🔋: discharging
-🛑: not charging
+    3) pgrep -x dunst >/dev/null && notify-send "  Battery module" ": discharging
+: not charging
 ♻: stagnant charge
-🔌: charging
+: charging
 ⚡: charged
 ❗: battery very low!
 - Text color reflects charge left" ;;
@@ -48,7 +48,7 @@ for battery in $acpi_res; do
         capacity="<span color=\""$color"\">$capacity% $remaining</span>"
     fi
 
-    res+=$(printf "%s%s%s\n" "$(echo "$status" | sed "s/,//;s/Discharging/🔋/;s/Not charging/🛑/;s/Charging/🔌/;s/Unknown/♻️/;s/Full/⚡/;s/ 0*/ /g;s/ :/ /g")" "$warn" "$(echo "$capacity")")
+    res+=$(printf "%s%s%s\n" "$(echo "$status" | sed "s/,//;s/Discharging//;s/Not charging/🛑/;s/Charging//;s/Unknown/♻️/;s/Full/⚡/;s/ 0*/ /g;s/ :/ /g")" "$warn" "$(echo "$capacity")")
 
 done
 
