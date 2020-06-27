@@ -12,8 +12,8 @@ xset r rate 250 30 &
 # Set wallpaper
 setbg ~/.config/wall.jpg
 
-# xcompmgr for transparency
-xcompmgr &
+# picom for transparency
+picom &
 
 # Enable bluetooth
 bluetoothctl power on

@@ -23,7 +23,7 @@ xorg-xrandr, Primitive command line interface to RandR extension
 xorg-xdpyinfo, Display information utility for X
 xorg-xset, User preference utility for X
 xterm, X Terminal Emulator
-xcompmgr, Simple composite manager
+picom, X compositor that may fix tearing issues
 i3-gaps, A fork of i3wm tiling window manager with more features
 i3status, Generates status bar to use with i3bar dzen2 or xmobar
 i3blocks, Define blocks for your i3bar status line
