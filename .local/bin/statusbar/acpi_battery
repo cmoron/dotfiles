@@ -25,6 +25,10 @@ for battery in $acpi_res; do
     warn=""
     color="#ffffff"
 
+    if [[ "$status" == "Not charging" ]]; then
+        icon="🛑"
+    fi
+
     if [[ "$status" == "Discharging" ]]; then
         remaining=$(echo $battery | awk -F ', ' '{print $3}' | sed 's/ remaining//')
         icon="🛑"
