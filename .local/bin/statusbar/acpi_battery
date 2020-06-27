@@ -23,6 +23,7 @@ for battery in $acpi_res; do
     remaining=""
     icon=""
     warn=""
+    color="#ffffff"
 
     if [[ "$status" == "Discharging" ]]; then
         remaining=$(echo $battery | awk -F ', ' '{print $3}' | sed 's/ remaining//')
@@ -49,13 +50,12 @@ for battery in $acpi_res; do
         icon="🔌"
     fi
 
-    [ "$satus" == "Unknown" ] && icon="♻️ "
+    [ "$status" == "Unknown" ] && icon="♻️ "
 
     if [ "$capacity" == 100 ]; then
         status="Full"
         icon="⚡"
     fi
-
 
     if [[ -z "$remaining" ]]; then
         capacity="<span color=\""$color"\">$capacity%</span>"
