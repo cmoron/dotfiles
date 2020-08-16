@@ -3,4 +3,4 @@
 # xinitrc runs automatically when you run startx.
 [ -f ~/.xprofile ] && . ~/.xprofile
 
-exec i3
+ssh-agent i3
