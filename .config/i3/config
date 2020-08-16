@@ -189,6 +189,7 @@ bar {
     position top
     mode dock
     modifier None
+    tray_output primary
     colors {
         background "#0a0a0a75"
         set_from_resource $c1 color1
