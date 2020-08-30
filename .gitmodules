@@ -1,0 +1,3 @@
+[submodule ".local/share/minimal_mr"]
+	path = .local/share/minimal_mr
+	url = https://github.com/cmoron/minimal_mr
