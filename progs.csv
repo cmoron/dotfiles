@@ -71,3 +71,4 @@ ripgrep,A search tool that combines the usability of ag with the raw speed of gr
 gucharmap,Gnome Unicode Charmap
 rsync,A fast and versatile file copying tool for remote and local files
 neovim,Fork of Vim aiming to improve user experience, plugins, and GUIs
+neofetch,A CLI system information tool written in BASH that supports displaying images.
