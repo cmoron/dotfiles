@@ -70,6 +70,8 @@ if [ -f "/usr/share/git/completion/git-completion.bash" ]; then
     . "/usr/share/git/completion/git-completion.bash"
 fi
 
+# npm path
+export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
 # yarn path
 export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
 
