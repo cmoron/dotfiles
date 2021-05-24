@@ -61,6 +61,12 @@ alias vi=$EDITOR
 alias g="git"
 alias rg="rg --hidden"
 
+# FZF bash extensions
+if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
+    source "${HOME}/.local/shell/fzf/completion.bash"
+    source "${HOME}/.local/shell/fzf/key-bindings.bash"
+fi
+
 # Git prompt and completion source
 if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
     . "/usr/share/git/completion/git-prompt.sh"
