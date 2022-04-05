@@ -70,6 +70,14 @@ if [ -f "/usr/share/git/completion/git-completion.bash" ]; then
     . "/usr/share/git/completion/git-completion.bash"
 fi
 
+if [[ -f "/usr/share/fzf/key-bindings.bash" ]]; then
+    . "/usr/share/fzf/key-bindings.bash"
+fi
+
+if [[ -f "/usr/share/fzf/completion.bash" ]]; then
+    . "/usr/share/fzf/completion.bash"
+fi
+
 # npm path
 export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
 # yarn path
