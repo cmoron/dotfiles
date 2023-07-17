@@ -1,14 +1,17 @@
 [alias]
     tree = log --oneline --graph --decorate --all
+    treee = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     b = branch --all -vv
+    s = status
+    c = commit -m
 
 [user]
-	email = cyril.moron@gmail.com
-	name = Cyril Moron
+    email = cyril.moron@gmail.com
+    name = Cyril Moron
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [pull]
-	rebase = false
+    rebase = false
