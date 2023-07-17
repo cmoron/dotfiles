@@ -39,23 +39,23 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if [[ -x "/usr/bin/dircolors" ]]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+    alias ls="ls --color=auto"
+    alias grep="grep --color=auto"
+    alias fgrep="fgrep --color=auto"
+    alias egrep="egrep --color=auto"
     alias diff="diff --color=auto"
 fi
 
 # aliases
-alias ll='ls -lh'
-alias la='ls -A'
-alias l='ls -CF'
-alias lla='ls -lAh'
+alias ll="ls -lh"
+alias la="ls -A"
+alias l="ls -CF"
+alias lla="ls -lAh"
 alias p="sudo pacman"
 alias vi=$EDITOR
 alias g="git"
@@ -68,11 +68,12 @@ if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
 fi
 
 # Git prompt and completion source
-if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
+
+if [[ -f "/usr/share/git/completion/git-prompt.sh" ]]; then
     . "/usr/share/git/completion/git-prompt.sh"
 fi
 
-if [ -f "/usr/share/git/completion/git-completion.bash" ]; then
+if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then
     . "/usr/share/git/completion/git-completion.bash"
 fi
 
@@ -99,6 +100,7 @@ export COLOR_CYA="\[\e[96m\]"
 export COLOR_WHI="\[\e[97m\]"
 export COLOR_RES="\[\e[0m\]"
 
+# Red PS1 for user, blue for root
 if [ "`id -u`" -eq 0 ]; then
     export PS1="${COLOR_BLU}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 else

@@ -15,8 +15,13 @@ setbg ~/.config/wall.jpg
 # picom for transparency
 picom &
 
+# Provides DISPLAY variable to dbus
+# Needed by blueman
+dbus-update-activation-environment DISPLAY
+
 # Enable bluetooth
-bluetoothctl power on
+#bluetoothctl power on
+blueman-applet &
 
 # Notification daemon
 dunst &
