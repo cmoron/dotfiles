@@ -73,3 +73,6 @@ rsync,A fast and versatile file copying tool for remote and local files
 neovim,Fork of Vim aiming to improve user experience, plugins, and GUIs
 neofetch,A CLI system information tool written in BASH that supports displaying images.
 chrony,Lightweight NTP client and server
+bat,Cat clone with syntax highlighting and git integration
+eza,A modern replacement for ls (community fork of exa)
+fd,Simple, fast and user-friendly alternative to find

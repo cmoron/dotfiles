@@ -52,14 +52,15 @@ if [[ -x "/usr/bin/dircolors" ]]; then
 fi
 
 # aliases
-alias ll="ls -lh"
-alias la="ls -A"
+alias ll="eza -lh"
+alias la="eza -A"
 alias l="ls -CF"
-alias lla="ls -lAh"
+alias lla="eza -lAh"
 alias p="sudo pacman"
 alias vi=$EDITOR
 alias g="git"
 alias rg="rg --hidden"
+alias fd="fd -HI"
 
 # FZF bash extensions
 if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
