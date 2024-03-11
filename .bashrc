@@ -13,7 +13,7 @@ if [[ -f /etc/bash.bashrc ]]; then
 fi
 
 # cd in directory by typing the directory name
-shopt -s autocd
+#shopt -s autocd
 
 # Don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -44,7 +44,7 @@ export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # enable color support of ls and also add handy aliases
 if [[ -x "/usr/bin/dircolors" ]]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls="ls --color=auto"
+    alias ls="ls -G"
     alias grep="grep --color=auto"
     alias fgrep="fgrep --color=auto"
     alias egrep="egrep --color=auto"
@@ -52,10 +52,10 @@ if [[ -x "/usr/bin/dircolors" ]]; then
 fi
 
 # aliases
-alias ll="eza -lh"
-alias la="eza -A"
-alias l="ls -CF"
-alias lla="eza -lAh"
+alias ll="ls -Glh"
+alias la="ls -GA"
+alias l="ls -GCF"
+alias lla="ls -GlAh"
 alias p="sudo pacman"
 alias vi=$EDITOR
 alias g="git"
@@ -67,6 +67,8 @@ if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
     source "${HOME}/.local/shell/fzf/completion.bash"
     source "${HOME}/.local/shell/fzf/key-bindings.bash"
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Git prompt and completion source
 
@@ -86,6 +88,9 @@ if [[ -f "/usr/share/fzf/completion.bash" ]]; then
     . "/usr/share/fzf/completion.bash"
 fi
 
+# Homebrew
+export PATH="/opt/homebrew/bin:$PATH"
+
 # npm path
 export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
 # yarn path
@@ -101,9 +106,5 @@ export COLOR_CYA="\[\e[96m\]"
 export COLOR_WHI="\[\e[97m\]"
 export COLOR_RES="\[\e[0m\]"
 
-# Red PS1 for user, blue for root
-if [ "`id -u`" -eq 0 ]; then
-    export PS1="${COLOR_BLU}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
-else
-    export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
-fi
+# PS1 for user
+export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI} \\$ ${COLOR_RES}"
