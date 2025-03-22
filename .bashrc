@@ -36,7 +36,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s globstar
 
 # colored GCC warnings and errors
 export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
@@ -52,12 +52,11 @@ if [[ -x "/usr/bin/dircolors" ]]; then
 fi
 
 # aliases
-alias ll="eza -lh"
-alias la="eza -A"
+alias ll="ls -lh"
+alias la="ls -A"
 alias l="ls -CF"
-alias lla="eza -lAh"
-alias p="sudo pacman"
-alias vi=$EDITOR
+alias lla="ls -lAh"
+alias vi="vim"
 alias g="git"
 alias rg="rg --hidden"
 alias fd="fd -HI"
@@ -69,7 +68,6 @@ if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
 fi
 
 # Git prompt and completion source
-
 if [[ -f "/usr/share/git/completion/git-prompt.sh" ]]; then
     . "/usr/share/git/completion/git-prompt.sh"
 fi
@@ -86,11 +84,6 @@ if [[ -f "/usr/share/fzf/completion.bash" ]]; then
     . "/usr/share/fzf/completion.bash"
 fi
 
-# npm path
-export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
-# yarn path
-export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
-
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"
 export COLOR_GRE="\[\e[92m\]"
@@ -105,5 +98,5 @@ export COLOR_RES="\[\e[0m\]"
 if [ "`id -u`" -eq 0 ]; then
     export PS1="${COLOR_BLU}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 else
-    export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
+    export PS1="${COLOR_CYA}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 fi
