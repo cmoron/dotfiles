@@ -19,3 +19,9 @@ export NAS_SHARED_PATH="/volume1/NAS_SHARED"
 
 # Local bin PATH
 export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# Silence deprecation warnings
+export BASH_SILENCE_DEPRECATION_WARNING=1
