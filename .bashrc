@@ -30,6 +30,10 @@ HISTFILESIZE=
 # Disable less history file (.lesshst)
 export LESSHISTFILE=-
 
+# use source-highlight for syntax highlighting in less
+export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -52,15 +56,16 @@ if [[ -x "/usr/bin/dircolors" ]]; then
 fi
 
 # aliases
-alias ll="eza -lh"
-alias la="eza -A"
+alias ll="ls -lh"
+alias la="ls -A"
 alias l="ls -CF"
-alias lla="eza -lAh"
+alias lla="ls -lAh"
 alias p="sudo pacman"
 alias vi=$EDITOR
 alias g="git"
 alias rg="rg --hidden"
 alias fd="fd -HI"
+alias vim="nvim"
 
 # FZF bash extensions
 if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
@@ -70,8 +75,8 @@ fi
 
 # Git prompt and completion source
 
-if [[ -f "/usr/share/git/completion/git-prompt.sh" ]]; then
-    . "/usr/share/git/completion/git-prompt.sh"
+if [[ "/usr/lib/git-core//git-sh-prompt" ]]; then
+    . "/usr/lib/git-core//git-sh-prompt"
 fi
 
 if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then

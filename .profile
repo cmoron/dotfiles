@@ -10,8 +10,7 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 
 # Default tools
-export EDITOR="vim"
-export TERMINAL="kitty"
+export EDITOR="nvim"
 export BROWSER="firefox"
 
 # NAS env variable for mount script (see $HOME/.local/bin)
