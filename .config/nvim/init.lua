@@ -53,6 +53,7 @@ vim.opt.undolevels = 150
 vim.opt.completeopt = 'menu,menuone,noselect'
 vim.opt.wildmenu = true
 vim.opt.wildmode = 'longest:list,full'
+vim.opt.autoread = true              -- Auto-reload fichiers modifiés
 
 -- Encoding
 vim.opt.encoding = 'utf-8'
@@ -80,6 +81,24 @@ local function set_indent(pattern, ts, sw)
 end
 
 set_indent({"html", "javascript", "vue", "svelte"}, 2, 2)
+
+-- Auto-reload fichiers modifiés (check au focus/buffer change)
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    pattern = "*",
+    callback = function()
+        if vim.fn.mode() ~= 'c' then
+            vim.cmd('checktime')
+        end
+    end,
+})
+
+-- Notification quand un fichier est modifié
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+    pattern = "*",
+    callback = function()
+        vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
+    end,
+})
 
 -- ============================
 -- 3. Mappings
@@ -162,15 +181,12 @@ require("lazy").setup({
         },
     },
 
-    -- Bufferline (gestion des buffers)
+    -- Bufferline (gestion des buffers - affichage en haut)
     {
         "akinsho/bufferline.nvim",
         version = "*",
         dependencies = "nvim-tree/nvim-web-devicons",
         lazy = false,  -- Charger au démarrage
-        keys = {
-            { "<F12>", "<cmd>BufferLinePick<cr>", desc = "Pick buffer" },
-        },
         opts = {
             options = {
                 mode = "buffers",
@@ -187,6 +203,15 @@ require("lazy").setup({
                     },
                 },
             },
+        },
+    },
+
+    -- BufExplorer (gestion de buffers - workflow Vim)
+    {
+        "jlanzarotta/bufexplorer",
+        keys = {
+            { "<F12>", "<cmd>BufExplorer<cr>", desc = "Buffer Explorer" },
+            { "<leader>b", "<cmd>BufExplorer<cr>", desc = "Buffer Explorer" },
         },
     },
 
@@ -324,11 +349,20 @@ require("lazy").setup({
             })
         end,
     },
-
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            -- Activer les LSP
+            vim.lsp.enable('pyright')        -- Python
+            vim.lsp.enable('bashls')         -- Bash
+            vim.lsp.enable('svelte')         -- Svelte
+            vim.lsp.enable('rust_analyzer')  -- Rust
+        end,
+    },
 })
 
 -- ============================
--- LSP Configuration native (Neovim 0.11+)
+-- LSP Configuration (Neovim 0.11+)
 -- ============================
 
 -- Keymaps LSP (adaptés AZERTY)
@@ -336,31 +370,44 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
         local opts = { buffer = ev.buf, silent = true }
 
+        -- NAVIGATION
         -- gd = Go to Definition (aller à la définition)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 
-        -- <leader>h = Afficher la documentation hover
-        vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, opts)
+        -- gD = Go to Declaration (aller à la déclaration)
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
 
-        -- <leader>n / <leader>N = Diagnostic suivant/précédent
+        -- grr = Find References (trouver toutes les références)
+        -- (raccourci par défaut de Neovim 0.11)
+
+        -- gri = Go to Implementation (aller à l'implémentation)
+        -- (raccourci par défaut de Neovim 0.11)
+
+        -- gO = Document symbols (plan du fichier)
+        -- (raccourci par défaut de Neovim 0.11)
+
+        -- DOCUMENTATION
+        -- H = Hover (afficher la documentation) - remplace K
+        vim.keymap.set('n', 'H', vim.lsp.buf.hover, opts)
+
+        -- DIAGNOSTICS (adaptés AZERTY, sans [])
+        -- <leader>n = Diagnostic suivant (remplace ]d)
         vim.keymap.set('n', '<leader>n', vim.diagnostic.goto_next, opts)
+
+        -- <leader>N = Diagnostic précédent (remplace [d)
         vim.keymap.set('n', '<leader>N', vim.diagnostic.goto_prev, opts)
 
         -- <leader>e = Afficher l'erreur en float
         vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-    end,
-})
 
--- Démarrer Pyright automatiquement pour les fichiers Python
--- Installation requise : pip install pyright
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'python',
-    callback = function()
-        vim.lsp.start({
-            name = 'pyright',
-            cmd = { 'pyright-langserver', '--stdio' },
-            root_dir = vim.fs.root(0, { 'pyproject.toml', 'setup.py', 'requirements.txt', '.git' }),
-        })
+        -- ACTIONS
+        -- grn ou <leader>rn = Rename (renommer)
+        -- (grn est le raccourci par défaut de Neovim 0.11)
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+
+        -- gra ou <leader>ca = Code Action (actions de code)
+        -- (gra est le raccourci par défaut de Neovim 0.11)
+        vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
     end,
 })
 
