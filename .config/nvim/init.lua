@@ -115,6 +115,8 @@ end
 -- Scroll plus rapide
 map('n', 'J', '2<C-e>')
 map('n', 'K', '3<C-y>')
+map('v', 'J', '2<C-e>')
+map('v', 'K', '3<C-y>')
 
 -- Navigation buffers (sera amélioré avec bufferline)
 map('n', '<Tab>', ':bnext<CR>')
@@ -349,9 +351,75 @@ require("lazy").setup({
             })
         end,
     },
+
+    -- nvim-cmp (autocomplétion moderne)
+    {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",     -- Source LSP
+            "hrsh7th/cmp-buffer",       -- Source buffer
+            "hrsh7th/cmp-path",         -- Source paths
+        },
+        config = function()
+            local cmp = require('cmp')
+
+            cmp.setup({
+                -- Fenêtre de complétion
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
+
+                -- Mappings
+                mapping = cmp.mapping.preset.insert({
+                    ['<Tab>'] = cmp.mapping.select_next_item(),
+                    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.abort(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                }),
+
+                -- Sources (ordre = priorité)
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },  -- LSP en priorité
+                    { name = 'buffer' },    -- Mots du buffer
+                    { name = 'path' },      -- Chemins de fichiers
+                }),
+
+                -- Formatage des items
+                formatting = {
+                    format = function(entry, vim_item)
+                        -- Afficher la source
+                        vim_item.menu = ({
+                            nvim_lsp = '[LSP]',
+                            buffer = '[Buffer]',
+                            path = '[Path]',
+                        })[entry.source.name]
+                        return vim_item
+                    end,
+                },
+
+                completion = {
+                    autocomplete = false,
+                },
+            })
+        end,
+    },
+
     {
         "neovim/nvim-lspconfig",
+        dependencies = { "hrsh7th/cmp-nvim-lsp" },
         config = function()
+            -- Capabilities pour nvim-cmp (meilleure autocomplétion)
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+            -- Configurer les capabilities pour tous les serveurs LSP
+            vim.lsp.config('*', {
+                capabilities = capabilities,
+            })
+
             -- Activer les LSP
             vim.lsp.enable('pyright')        -- Python
             vim.lsp.enable('bashls')         -- Bash
