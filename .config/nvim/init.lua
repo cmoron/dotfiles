@@ -245,9 +245,6 @@ require("lazy").setup({
     -- Fugitive (git)
     "tpope/vim-fugitive",
 
-    -- Surround
-    "tpope/vim-surround",
-
     -- Comment (remplace nerdcommenter)
     {
         "numToStr/Comment.nvim",
@@ -268,26 +265,176 @@ require("lazy").setup({
         end,
     },
 
-    -- FZF
+    -- Telescope (fuzzy finder)
     {
-        "junegunn/fzf",
-        build = "./install --bin",
-    },
-    {
-        "junegunn/fzf.vim",
-        dependencies = { "junegunn/fzf" },
+        "nvim-telescope/telescope.nvim",
+        tag = "0.1.8",
+        dependencies = { "nvim-lua/plenary.nvim" },
         keys = {
-            { "<C-p>", "<cmd>FZF<cr>", desc = "Find files" },
-            { "<leader>p", "<cmd>Buffers<cr>", desc = "Find buffers" },
+            { "<C-p>", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+            { "<leader>p", "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
+            { "<leader>g", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
+            { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
+            { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
+            { "<leader>fr", "<cmd>Telescope lsp_references<cr>", desc = "LSP references" },
+            { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document symbols" },
         },
+        opts = {
+            defaults = {
+                layout_strategy = 'horizontal',
+                layout_config = {
+                    horizontal = {
+                        preview_width = 0.6,
+                    },
+                },
+                mappings = {
+                    i = {
+                        ['<C-j>'] = 'move_selection_next',
+                        ['<C-k>'] = 'move_selection_previous',
+                    },
+                },
+                -- Filtrer les dossiers et fichiers inutiles
+                file_ignore_patterns = {
+                    "^.git/",           -- Dossier git
+                    "node_modules/",    -- Dépendances Node.js
+                    "%.lock",           -- Fichiers lock (package-lock.json, etc.)
+                    "__pycache__/",     -- Cache Python
+                    "%.pyc",            -- Bytecode Python
+                    "build/",           -- Build directories
+                    "dist/",
+                    "target/",          -- Rust build
+                    ".cache/",
+                    "%.min%.js",        -- JS minifié
+                    "%.min%.css",       -- CSS minifié
+                },
+            },
+            pickers = {
+                find_files = {
+                    hidden = true,  -- Afficher les fichiers cachés (., .., .config, etc.)
+                    -- Mais respecte file_ignore_patterns
+                },
+            },
+        },
+    },
+
+    -- Autopairs (fermeture automatique des parenthèses, quotes, etc.)
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
         config = function()
-            vim.g.fzf_preview_window = 'right:60%'
+            require("nvim-autopairs").setup({})
+
+            -- Intégration avec nvim-cmp
+            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+            local cmp = require('cmp')
+            cmp.event:on(
+                'confirm_done',
+                cmp_autopairs.on_confirm_done()
+            )
         end,
     },
 
-    -- Ripgrep
+    -- Harpoon (navigation rapide entre fichiers favoris)
     {
-        "duane9/nvim-rg",
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local harpoon = require("harpoon")
+            harpoon:setup()
+
+            -- Mappings
+            vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
+                { desc = "Harpoon: Add file" })
+            vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+                { desc = "Harpoon: Toggle menu" })
+
+            -- Navigation rapide (fichiers 1-4)
+            vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end,
+                { desc = "Harpoon: File 1" })
+            vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end,
+                { desc = "Harpoon: File 2" })
+            vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end,
+                { desc = "Harpoon: File 3" })
+            vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end,
+                { desc = "Harpoon: File 4" })
+
+            -- Navigation précédent/suivant
+            vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end,
+                { desc = "Harpoon: Previous" })
+            vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end,
+                { desc = "Harpoon: Next" })
+        end,
+    },
+
+    -- Trouble (diagnostics, quickfix, LSP)
+    {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        keys = {
+            { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Trouble: Toggle diagnostics" },
+            { "<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Trouble: Document diagnostics" },
+            { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Trouble: Symbols" },
+            { "<leader>xl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "Trouble: LSP definitions/references" },
+            { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Trouble: Quickfix" },
+        },
+        opts = {},
+    },
+
+    -- Which-key (affiche les raccourcis disponibles)
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = {
+            preset = "modern",
+        },
+        config = function(_, opts)
+            local wk = require("which-key")
+            wk.setup(opts)
+
+            -- Groupes de raccourcis
+            wk.add({
+                { "<leader>f", group = "Find/Format" },
+                { "<leader>x", group = "Trouble" },
+                { "<leader>c", group = "Comment" },
+            })
+        end,
+    },
+
+    -- Conform (formatage de code)
+    {
+        "stevearc/conform.nvim",
+        event = { "BufWritePre" },
+        cmd = { "ConformInfo" },
+        keys = {
+            {
+                "<leader>f",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = "",
+                desc = "Format buffer",
+            },
+        },
+        opts = {
+            formatters_by_ft = {
+                lua = { "stylua" },
+                python = { "black" },
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                svelte = { "prettier" },
+                html = { "prettier" },
+                css = { "prettier" },
+                json = { "prettier" },
+                yaml = { "prettier" },
+                markdown = { "prettier" },
+            },
+            -- Fallback sur LSP si pas de formatter configuré
+            format_on_save = false,  -- Pas de format automatique
+            formatters = {
+                -- Configuration custom si nécessaire
+            },
+        },
     },
 
     -- Colorizer (affiche les couleurs CSS)
@@ -423,6 +570,7 @@ require("lazy").setup({
             -- Activer les LSP
             vim.lsp.enable('pyright')        -- Python
             vim.lsp.enable('bashls')         -- Bash
+            vim.lsp.enable('ts_ls')          -- JavaScript/TypeScript
             vim.lsp.enable('svelte')         -- Svelte
             vim.lsp.enable('rust_analyzer')  -- Rust
         end,
@@ -479,14 +627,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
--- ============================
--- 6. Fonction Format
--- ============================
-
-function Format()
-    vim.cmd('retab')
-    vim.cmd([[%s/\s\+$//e]])
-    print("Format: trailing whitespace removed and tabs reset")
-end
-
-map('n', '<leader>f', '<cmd>lua Format()<cr>', { desc = 'Format file' })

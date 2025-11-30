@@ -18,7 +18,7 @@ nvim --version
 ```bash
 # Installer toutes les dépendances de base
 sudo apt update
-sudo apt install -y git curl wget unzip ripgrep fzf build-essential python3 python3-pip
+sudo apt install -y git curl wget unzip ripgrep build-essential python3 python3-pip
 ```
 
 #### Détail des dépendances
@@ -31,15 +31,7 @@ sudo apt install git curl wget unzip
 - **curl/wget** : Téléchargement de ressources
 - **unzip** : Extraction des archives (fonts, plugins)
 
-##### 2. FZF (recherche floue de fichiers)
-```bash
-sudo apt install fzf
-
-# Vérification
-fzf --version
-```
-
-##### 3. Ripgrep (recherche dans les fichiers)
+##### 2. Ripgrep (pour Telescope live grep)
 ```bash
 sudo apt install ripgrep
 
@@ -47,13 +39,13 @@ sudo apt install ripgrep
 rg --version
 ```
 
-##### 4. Build tools (pour compiler Treesitter et autres plugins)
+##### 3. Build tools (pour compiler Treesitter et autres plugins)
 ```bash
 sudo apt install build-essential
 ```
 Inclut : gcc, g++, make
 
-##### 5. Python et Pip (pour les serveurs LSP Python)
+##### 4. Python et Pip (pour les serveurs LSP Python)
 ```bash
 sudo apt install python3 python3-pip
 
@@ -62,7 +54,7 @@ python3 --version
 pip3 --version
 ```
 
-##### 6. Node.js et npm (pour Copilot et serveurs LSP)
+##### 5. Node.js et npm (pour Copilot et serveurs LSP)
 ```bash
 # Requis : Node.js >= 18
 # Installation via nvm (recommandé) ou apt
@@ -71,6 +63,28 @@ pip3 --version
 node --version
 npm --version
 ```
+
+### Formatters (optionnel, pour conform.nvim)
+
+Ces formatters sont utilisés par conform.nvim pour formater votre code avec `<leader>f`.
+
+#### Prettier (JavaScript, TypeScript, HTML, CSS, JSON, etc.)
+```bash
+npm install -g prettier
+```
+
+#### Black (Python)
+```bash
+pip install black
+```
+
+#### StyLua (Lua)
+```bash
+cargo install stylua
+# ou télécharger depuis https://github.com/JohnnyMorganz/StyLua/releases
+```
+
+> **Note :** Si un formatter n'est pas installé, conform.nvim utilisera le LSP comme fallback.
 
 ### Fonts
 
@@ -109,6 +123,11 @@ npm install -g pyright
 npm install -g bash-language-server
 ```
 
+### JavaScript/TypeScript - typescript-language-server
+```bash
+npm install -g typescript-language-server typescript
+```
+
 ### Svelte - svelte-language-server
 ```bash
 npm install -g svelte-language-server
@@ -127,6 +146,9 @@ which pyright-langserver
 
 # Bash
 which bash-language-server
+
+# JavaScript/TypeScript
+which typescript-language-server
 
 # Svelte
 which svelteserver
@@ -147,16 +169,33 @@ which rust-analyzer
 
 **Leader key** : `Espace`
 
-### 🗂️ Navigation et Fichiers
+### 🗂️ Navigation et Fichiers (Telescope)
 
 | Raccourci | Description |
 |-----------|-------------|
 | `F9` | Toggle NvimTree (explorateur de fichiers) |
 | `<leader><Tab>` | Trouver le fichier courant dans NvimTree |
-| `Ctrl-P` | Recherche de fichiers (FZF) |
-| `<leader>p` | Liste des buffers (FZF) |
-| `<leader>rg` | Recherche de texte dans tous les fichiers (Ripgrep) |
+| `Ctrl-P` | Recherche de fichiers (Telescope find_files) |
+| `<leader>p` | Liste des buffers (Telescope buffers) |
+| `<leader>g` | Recherche de texte dans tous les fichiers (Telescope live_grep) |
+| `<leader>fh` | Recherche dans l'aide (Telescope help_tags) |
+| `<leader>fd` | Liste des diagnostics (Telescope diagnostics) |
+| `<leader>fr` | Références LSP (Telescope lsp_references) |
+| `<leader>fs` | Symboles du document (Telescope lsp_document_symbols) |
 
+**Dans Telescope :**
+- `Ctrl-j` / `Ctrl-k` - Naviguer dans les résultats
+- `Enter` - Ouvrir le fichier
+- `Esc` - Fermer Telescope
+
+**Filtres actifs :**
+Telescope ignore automatiquement :
+- `.git/` - Dossier git
+- `node_modules/` - Dépendances Node.js
+- `build/`, `dist/`, `target/` - Dossiers de build
+- `__pycache__/`, `*.pyc` - Cache Python
+- `*.lock` - Fichiers lock
+- `*.min.js`, `*.min.css` - Fichiers minifiés
 ### 📑 Gestion des Buffers
 
 | Raccourci | Description |
@@ -172,17 +211,26 @@ which rust-analyzer
 - `Enter` - Ouvrir le buffer
 - `q` - Quitter
 
-### 💻 Terminal Intégré
+### 🎯 Navigation Rapide (Harpoon)
+
+Harpoon permet de marquer vos fichiers favoris et de naviguer rapidement entre eux.
 
 | Raccourci | Description |
 |-----------|-------------|
-| `F7` | Ouvrir terminal vertical |
-| `F8` | Ouvrir terminal horizontal |
-| `Esc` | Sortir du mode terminal (en mode terminal) |
+| `<leader>a` | Ajouter le fichier actuel à Harpoon |
+| `<leader>h` | Ouvrir le menu Harpoon |
+| `<leader>1` à `<leader>4` | Aller directement au fichier 1-4 |
+| `Ctrl-Shift-P` | Fichier Harpoon précédent |
+| `Ctrl-Shift-N` | Fichier Harpoon suivant |
+
+**Workflow typique :**
+1. Ouvrir vos 3-4 fichiers principaux
+2. Marquer chacun avec `<leader>a`
+3. Naviguer instantanément avec `<leader>1`, `<leader>2`, etc.
 
 ### ⌨️ Autocomplétion (nvim-cmp)
 
-L'autocomplétion se déclenche **automatiquement** pendant la saisie et affiche un popup avec :
+L'autocomplétion se déclenche **manuellement** avec `Ctrl-Space` et affiche un popup avec :
 - ✅ Suggestions LSP (fonctions, variables, méthodes) avec documentation complète
 - ✅ Mots du buffer actuel
 - ✅ Chemins de fichiers
@@ -203,7 +251,7 @@ L'autocomplétion se déclenche **automatiquement** pendant la saisie et affiche
 
 ### 🔧 LSP - Navigation et Actions
 
-**Ces raccourcis fonctionnent quand un serveur LSP est actif** (Python, Bash, Svelte, Rust)
+**Ces raccourcis fonctionnent quand un serveur LSP est actif** (Python, Bash, JavaScript/TypeScript, Svelte, Rust)
 
 #### Navigation dans le Code
 
@@ -236,6 +284,18 @@ L'autocomplétion se déclenche **automatiquement** pendant la saisie et affiche
 | `grn` ou `<leader>rn` | Rename - Renommer le symbole sous le curseur |
 | `gra` ou `<leader>ca` | Code Action - Actions de code disponibles |
 
+### 🔍 Trouble (Diagnostics et Quickfix)
+
+Interface moderne pour visualiser les diagnostics, erreurs et références.
+
+| Raccourci | Description |
+|-----------|-------------|
+| `<leader>xx` | Toggle Trouble (tous les diagnostics) |
+| `<leader>xd` | Diagnostics du document actuel |
+| `<leader>xs` | Symboles du document |
+| `<leader>xl` | Définitions/Références LSP |
+| `<leader>xq` | Quickfix list |
+
 ### 💬 Commentaires
 
 | Raccourci | Mode | Description |
@@ -253,20 +313,39 @@ L'autocomplétion se déclenche **automatiquement** pendant la saisie et affiche
 
 Après avoir tapé les 2 caractères, des labels apparaissent sur les correspondances.
 
-### ✏️ Édition
+### ✏️ Édition et Formatage
 
 | Raccourci | Mode | Description |
 |-----------|------|-------------|
-| `<leader>f` | Normal | Format - Supprime trailing whitespace et retab |
+| `<leader>f` | Normal | Formater le buffer (conform.nvim) |
 | `Shift-Tab` | Insertion | Déindenter la ligne |
 | `J` | Normal | Scroll rapide vers le bas (2 lignes) |
 | `K` | Normal | Scroll rapide vers le haut (3 lignes) |
+
+**Formatage avec conform.nvim :**
+- Utilise prettier, black, stylua selon le type de fichier
+- Fallback sur le formatage LSP si pas de formatter installé
+- Voir la section "Formatters" pour installer les formatters
+
+> **Note :** `K` est utilisé pour le scroll. Pour afficher la documentation LSP, utiliser `H`.
 
 ### 🔄 Configuration
 
 | Raccourci | Description |
 |-----------|-------------|
 | `<leader><Enter>` | Recharger la configuration Neovim |
+
+### 🔑 Which-key (Découverte des raccourcis)
+
+**Which-key affiche automatiquement les raccourcis disponibles** quand vous tapez `<leader>`.
+
+Exemple : Tapez `<leader>` et attendez 500ms → un popup apparaît avec tous les raccourcis possibles :
+- `<leader>f...` - Find/Format
+- `<leader>x...` - Trouble
+- `<leader>c...` - Comment
+- etc.
+
+Très utile pour découvrir les raccourcis ou se rappeler des commandes !
 
 ### 🌿 Git (vim-fugitive)
 
@@ -290,35 +369,51 @@ Après avoir tapé les 2 caractères, des labels apparaissent sur les correspond
 
 | Touche | Action |
 |--------|--------|
-| `F7` | Terminal vertical |
-| `F8` | Terminal horizontal |
 | `F9` | Toggle NvimTree |
 | `F12` | BufExplorer |
 
 ## Plugins installés
 
+### Core
 - **lazy.nvim** - Gestionnaire de plugins
 - **gruvbox** - Colorscheme
+
+### Navigation et Fichiers
 - **nvim-tree** - Explorateur de fichiers
+- **telescope.nvim** - Fuzzy finder moderne (fichiers, grep, LSP, etc.)
+- **harpoon** - Navigation rapide entre fichiers favoris
+
+### Buffers et UI
 - **bufferline** - Affichage des buffers en onglets
 - **bufexplorer** - Gestionnaire de buffers
 - **lualine** - Barre de statut
+- **which-key** - Affiche les raccourcis disponibles
+
+### Git
 - **gitsigns** - Indicateurs Git dans la marge
-- **vim-fugitive** - Intégration Git
-- **vim-surround** - Manipulation de délimiteurs
+- **vim-fugitive** - Intégration Git complète
+
+### Édition
 - **Comment.nvim** - Commenter du code
-- **fzf.vim** - Recherche floue de fichiers
-- **nvim-rg** - Intégration Ripgrep
-- **vim-sneak** - Navigation rapide
-- **copilot.vim** - GitHub Copilot
+- **nvim-autopairs** - Fermeture automatique des parenthèses/quotes
+- **vim-sneak** - Navigation rapide par 2 caractères
+- **conform.nvim** - Formatage de code (prettier, black, stylua, etc.)
+
+### LSP et Complétion
+- **nvim-cmp** - Moteur d'autocomplétion moderne
+  - **cmp-nvim-lsp** - Source LSP
+  - **cmp-buffer** - Source buffer
+  - **cmp-path** - Source paths
+- **nvim-lspconfig** - Configuration LSP
+- **trouble.nvim** - Interface pour diagnostics et quickfix
+
+### Visuel et Syntaxe
 - **indent-blankline** - Guides d'indentation
 - **nvim-colorizer** - Affichage des couleurs CSS
-- **nvim-treesitter** - Parsing et coloration syntaxique
-- **nvim-cmp** - Moteur d'autocomplétion moderne
-  - **cmp-nvim-lsp** - Source LSP pour nvim-cmp
-  - **cmp-buffer** - Source buffer pour nvim-cmp
-  - **cmp-path** - Source paths pour nvim-cmp
-- **nvim-lspconfig** - Configuration LSP
+- **nvim-treesitter** - Parsing et coloration syntaxique avancée
+
+### IA
+- **copilot.vim** - GitHub Copilot
 
 ## Désactivation temporaire
 
@@ -332,6 +427,7 @@ Si vous ne voulez pas utiliser Copilot, commentez la ligne dans `init.lua` :
 Pour désactiver un LSP, commentez la ligne correspondante dans `init.lua` :
 ```lua
 -- vim.lsp.enable('pyright')
+-- vim.lsp.enable('ts_ls')
 ```
 
 ## Résolution de problèmes
@@ -359,8 +455,27 @@ Tous les réglages sont dans `~/.config/nvim/init.lua`. Le fichier est bien comm
 2. Autocmds (indentation par filetype)
 3. Mappings
 4. Bootstrap lazy.nvim
-5. Plugins
+5. Plugins (avec configurations détaillées)
 6. Configuration LSP
-7. Fonctions (Format)
+
+### Modifier les filtres Telescope
+
+Pour ajouter/retirer des patterns à ignorer, modifiez `file_ignore_patterns` dans la config Telescope (init.lua) :
+
+```lua
+file_ignore_patterns = {
+    "^.git/",
+    "node_modules/",
+    -- Ajoutez vos patterns ici
+    "mon_dossier/",
+    "%.tmp$",
+},
+```
+
+**Note :** Les patterns utilisent la syntaxe Lua :
+- `^` = début de chemin
+- `$` = fin de chemin
+- `%.` = point littéral (échappé)
+- `/` = slash littéral
 
 N'hésitez pas à adapter selon vos besoins !
