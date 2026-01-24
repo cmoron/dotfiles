@@ -19,3 +19,5 @@
 	defaultBranch = main
 [credential]
 	helper = store
+[core]
+	pager = less -F -X -R

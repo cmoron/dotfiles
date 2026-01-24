@@ -70,8 +70,15 @@ alias vim="nvim"
 # FZF bash extensions
 if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
     source "${HOME}/.local/shell/fzf/completion.bash"
+fi
+
+# FZF key bindings
+if [[ -f "${HOME}/.local/shell/fzf/key-bindings.bash" ]]; then
     source "${HOME}/.local/shell/fzf/key-bindings.bash"
 fi
+
+# LazyDocker alias
+alias lzd='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/src/lazydocker lazyteam/lazydocker'
 
 # Git prompt and completion source
 
@@ -83,18 +90,12 @@ if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then
     . "/usr/share/git/completion/git-completion.bash"
 fi
 
-if [[ -f "/usr/share/fzf/key-bindings.bash" ]]; then
-    . "/usr/share/fzf/key-bindings.bash"
-fi
-
-if [[ -f "/usr/share/fzf/completion.bash" ]]; then
-    . "/usr/share/fzf/completion.bash"
-fi
-
 # npm path
 export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
 # yarn path
 export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
+# cargo path
+export PATH="${HOME}/.cargo/bin/:${PATH}"
 
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"
