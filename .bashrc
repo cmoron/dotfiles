@@ -96,6 +96,8 @@ export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
 export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
 # cargo path
 export PATH="${HOME}/.cargo/bin/:${PATH}"
+# uv
+. "$HOME/.local/share/../bin/env"
 
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"
@@ -113,3 +115,11 @@ if [ "`id -u`" -eq 0 ]; then
 else
     export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 fi
+
+# Pre-start claude-mem worker to avoid SessionStart race condition on first Claude Code launch
+_CMEM="$HOME/.claude/plugins/marketplaces/thedotmack/plugin"
+if [ -f "$_CMEM/scripts/bun-runner.js" ] && ! curl -sf http://localhost:37777/api/health &>/dev/null; then
+  node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start &>/dev/null &
+  disown
+fi
+unset _CMEM

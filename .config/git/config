@@ -1,6 +1,6 @@
 [alias]
     tree = log --oneline --graph --decorate --all
-    treee = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    treee = log --graph --decorate --all --abbrev-commit --pretty=format:'%C(auto)%h%d %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     b = branch --all -vv
     s = status
     c = commit -m
@@ -14,10 +14,22 @@
     process = git-lfs filter-process
     required = true
 [pull]
-    rebase = false
+    rebase = true
 [init]
 	defaultBranch = main
 [credential]
 	helper = store
 [core]
-	pager = less -F -X -R
+	pager = delta
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+[branch]
+	autoSetupRebase = always
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	pager = less -FRX

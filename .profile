@@ -19,3 +19,9 @@ export NAS_SHARED_PATH="/volume1/NAS_SHARED"
 
 # Local bin PATH
 export PATH="${HOME}/.local/bin:${PATH}"
+
+. "$HOME/.local/share/../bin/env"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
