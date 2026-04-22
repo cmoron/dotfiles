@@ -57,15 +57,12 @@ alias fd="fd -HI"
 alias vim="nvim"
 alias vi="nvim"
 
-# FZF bash extensions
-if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
-    source "${HOME}/.local/shell/fzf/completion.bash"
-fi
-
-# FZF key bindings
-if [[ -f "${HOME}/.local/shell/fzf/key-bindings.bash" ]]; then
-    source "${HOME}/.local/shell/fzf/key-bindings.bash"
-fi
+# FZF shell integration (Arch: /usr/share/fzf, Debian/Ubuntu: /usr/share/doc/fzf/examples)
+for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples; do
+    [[ -f "$_fzf_dir/key-bindings.bash" ]] && source "$_fzf_dir/key-bindings.bash"
+    [[ -f "$_fzf_dir/completion.bash" ]] && source "$_fzf_dir/completion.bash"
+done
+unset _fzf_dir
 
 # Git prompt and completion source
 if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
