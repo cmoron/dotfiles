@@ -27,13 +27,6 @@ shopt -s histappend
 HISTSIZE=
 HISTFILESIZE=
 
-# Disable less history file (.lesshst)
-export LESSHISTFILE=-
-
-# use source-highlight for syntax highlighting in less
-export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-export LESS=' -R '
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -41,9 +34,6 @@ shopt -s checkwinsize
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
-
-# colored GCC warnings and errors
-export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 
 # enable color support of ls and also add handy aliases
 if [[ -x "/usr/bin/dircolors" ]]; then
@@ -86,15 +76,6 @@ if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then
     . "/usr/share/git/completion/git-completion.bash"
 fi
 
-# npm path
-export PATH="${HOME}/.local/share/npm/bin/:${PATH}"
-# yarn path
-export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
-# cargo path
-export PATH="${HOME}/.cargo/bin/:${PATH}"
-# uv
-[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
-
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"
 export COLOR_GRE="\[\e[92m\]"
@@ -111,11 +92,3 @@ if [ "`id -u`" -eq 0 ]; then
 else
     export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 fi
-
-# Pre-start claude-mem worker to avoid SessionStart race condition on first Claude Code launch
-_CMEM="$HOME/.claude/plugins/marketplaces/thedotmack/plugin"
-if [ -f "$_CMEM/scripts/bun-runner.js" ] && ! curl -sf http://localhost:37777/api/health &>/dev/null; then
-  node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start &>/dev/null &
-  disown
-fi
-unset _CMEM
