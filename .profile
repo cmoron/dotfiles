@@ -23,6 +23,8 @@ export NAS_SHARED_PATH="/volume1/NAS_SHARED"
 # PATH
 export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
+# Homebrew (macOS)
+[ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:${PATH}"
 
 # uv
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
@@ -54,3 +56,7 @@ unset _CMEM
 
 # Source ~/.bashrc for interactive shell setup (last, so env is ready)
 [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
+
+# macOS-specific
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+export BASH_SILENCE_DEPRECATION_WARNING=1

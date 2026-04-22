@@ -42,8 +42,8 @@ alias fd="fd -HI"
 alias vim="nvim"
 alias vi="nvim"
 
-# FZF shell integration (Arch / Debian)
-for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples; do
+# FZF shell integration (Arch / Debian / macOS Brew)
+for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples /opt/homebrew/opt/fzf/shell; do
     if [[ -f "$_fzf_dir/key-bindings.bash" ]]; then
         source "$_fzf_dir/key-bindings.bash"
         [[ -f "$_fzf_dir/completion.bash" ]] && source "$_fzf_dir/completion.bash"
@@ -53,11 +53,11 @@ done
 unset _fzf_dir
 
 # Git prompt + completion
-for _git_sh in /usr/lib/git-core/git-sh-prompt; do
+for _git_sh in /usr/lib/git-core/git-sh-prompt /opt/homebrew/etc/bash_completion.d/git-prompt.sh; do
     [[ -f "$_git_sh" ]] && { . "$_git_sh"; break; }
 done
 
-for _git_comp in /usr/share/git/completion/git-completion.bash; do
+for _git_comp in /usr/share/git/completion/git-completion.bash /opt/homebrew/etc/bash_completion.d/git-completion.bash; do
     [[ -f "$_git_comp" ]] && { . "$_git_comp"; break; }
 done
 unset _git_sh _git_comp
