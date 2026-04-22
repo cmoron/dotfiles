@@ -60,12 +60,12 @@ alias ll="ls -lh"
 alias la="ls -A"
 alias l="ls -CF"
 alias lla="ls -lAh"
-alias p="sudo pacman"
-alias vi=$EDITOR
+command -v pacman >/dev/null && alias p="sudo pacman"
 alias g="git"
 alias rg="rg --hidden"
 alias fd="fd -HI"
 alias vim="nvim"
+alias vi="nvim"
 
 # FZF bash extensions
 if [[ -f "${HOME}/.local/shell/fzf/completion.bash" ]]; then
