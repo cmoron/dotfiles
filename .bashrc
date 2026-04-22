@@ -77,13 +77,9 @@ if [[ -f "${HOME}/.local/shell/fzf/key-bindings.bash" ]]; then
     source "${HOME}/.local/shell/fzf/key-bindings.bash"
 fi
 
-# LazyDocker alias
-alias lzd='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/src/lazydocker lazyteam/lazydocker'
-
 # Git prompt and completion source
-
-if [[ "/usr/lib/git-core//git-sh-prompt" ]]; then
-    . "/usr/lib/git-core//git-sh-prompt"
+if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
+    . "/usr/lib/git-core/git-sh-prompt"
 fi
 
 if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then
@@ -97,7 +93,7 @@ export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin/:${PATH}"
 # cargo path
 export PATH="${HOME}/.cargo/bin/:${PATH}"
 # uv
-. "$HOME/.local/share/../bin/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"
