@@ -12,8 +12,8 @@ if [[ -f /etc/bash.bashrc ]]; then
     . /etc/bash.bashrc
 fi
 
-# cd in directory by typing the directory name
-shopt -s autocd
+# cd in directory by typing the directory name (bash 4+ only, silent on macOS bash 3.2)
+shopt -s autocd 2>/dev/null
 
 # Don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -57,21 +57,25 @@ alias fd="fd -HI"
 alias vim="nvim"
 alias vi="nvim"
 
-# FZF shell integration (Arch: /usr/share/fzf, Debian/Ubuntu: /usr/share/doc/fzf/examples)
-for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples; do
+# FZF shell integration
+#   Arch:          /usr/share/fzf
+#   Debian/Ubuntu: /usr/share/doc/fzf/examples
+#   macOS Brew:    /opt/homebrew/opt/fzf/shell
+for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples /opt/homebrew/opt/fzf/shell; do
     [[ -f "$_fzf_dir/key-bindings.bash" ]] && source "$_fzf_dir/key-bindings.bash"
     [[ -f "$_fzf_dir/completion.bash" ]] && source "$_fzf_dir/completion.bash"
 done
 unset _fzf_dir
 
 # Git prompt and completion source
-if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
-    . "/usr/lib/git-core/git-sh-prompt"
-fi
+for _git_sh in /usr/lib/git-core/git-sh-prompt /opt/homebrew/etc/bash_completion.d/git-prompt.sh; do
+    [[ -f "$_git_sh" ]] && . "$_git_sh"
+done
 
-if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then
-    . "/usr/share/git/completion/git-completion.bash"
-fi
+for _git_comp in /usr/share/git/completion/git-completion.bash /opt/homebrew/etc/bash_completion.d/git-completion.bash; do
+    [[ -f "$_git_comp" ]] && . "$_git_comp"
+done
+unset _git_sh _git_comp
 
 # Colored PS1 definition
 export COLOR_RED="\[\e[91m\]"

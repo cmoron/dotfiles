@@ -19,6 +19,8 @@ export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/.local/share/npm/bin:${PATH}"
 export PATH="${HOME}/.local/share/yarn/global/node_modules/.bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
+# Homebrew (macOS)
+[ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:${PATH}"
 
 # uv
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
@@ -45,3 +47,7 @@ unset _CMEM
 
 # Source ~/.bashrc for interactive shell setup (last, so env is ready)
 [[ -f "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
+
+# macOS-specific
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+export BASH_SILENCE_DEPRECATION_WARNING=1
