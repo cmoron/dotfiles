@@ -3,7 +3,16 @@
     treee = log --graph --decorate --all --abbrev-commit --pretty=format:'%C(auto)%h%d %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     b = branch --all -vv
     s = status
+    st = status
     c = commit -m
+    co = checkout
+    sw = switch
+    d = diff
+    ds = diff --staged
+    a = add
+    rb = rebase
+    amend = commit --amend --no-edit
+    fix = commit --fixup
 
 [user]
     email = cyril.moron@gmail.com
