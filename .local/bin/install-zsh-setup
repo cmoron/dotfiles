@@ -75,6 +75,11 @@ link "$DOTFILES/.zshrc"                  "$HOME/.zshrc"
 link "$DOTFILES/.config/starship.toml"   "$HOME/.config/starship.toml"
 link "$DOTFILES/.config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
 
+# Ghostty (si présent) : force le shell zsh côté terminal aussi
+if [[ -d /Applications/Ghostty.app ]] || command -v ghostty &>/dev/null; then
+    link "$DOTFILES/.config/ghostty"     "$HOME/.config/ghostty"
+fi
+
 # ── 4. activation du shell (opt-in) ─────────────────────────────────────
 ZSH_BIN="$(command -v zsh)"
 say "Shell par défaut actuel : $SHELL"

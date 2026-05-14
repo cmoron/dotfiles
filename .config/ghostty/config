@@ -1,0 +1,17 @@
+# Ghostty — config minimale.
+# Doc complète : ghostty +show-config --default | less
+
+# Force zsh login shell. Sans ça, Ghostty hérite du $SHELL de la session
+# GUI macOS, qui peut être obsolète tant que la session n'a pas été
+# rejouée après chsh.
+command = /bin/zsh --login
+
+# Shell integration (defaults already good, listed for visibility)
+shell-integration = detect
+shell-integration-features = cursor,no-sudo,title
+
+# Confort
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+window-padding-x = 8
+window-padding-y = 8
