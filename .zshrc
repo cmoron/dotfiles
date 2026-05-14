@@ -59,9 +59,11 @@ zinit wait lucid for \
     atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions
 
-# Plugins ressources légères
+# history-substring-search : bind les flèches au chargement du plugin (atload)
+# pour éviter "unhandled ZLE widget" si bindkey appelé avant le load
 zinit wait lucid for \
-    zsh-users/zsh-history-substring-search \
+    atload"bindkey '^[[A' history-substring-search-up; bindkey '^[[B' history-substring-search-down" \
+        zsh-users/zsh-history-substring-search \
     Aloxaf/fzf-tab \
     hlissner/zsh-autopair
 
@@ -295,9 +297,9 @@ hash -d cache=${XDG_CACHE_HOME}
 
 bindkey -e                                    # emacs mode (par défaut)
 
-# History-substring-search : matche le préfixe (commence à taper + flèche)
-bindkey '^[[A' history-substring-search-up    # arrow up
-bindkey '^[[B' history-substring-search-down  # arrow down
+# Note : les bindkey pour history-substring-search-up/down sont définis via
+# `atload` au chargement du plugin (voir section 3), pour éviter le warning
+# "unhandled ZLE widget" de fast-syntax-highlighting.
 
 # Custom widgets
 _gbf-widget() { gbf; zle reset-prompt }
