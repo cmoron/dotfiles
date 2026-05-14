@@ -9,6 +9,13 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 export EDITOR="nvim"
 export BROWSER="firefox"
 
+# History (bash + less). Toutes les history settings ensemble.
+# HISTSIZE/HISTFILESIZE vides = historique bash illimité.
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTCONTROL=ignoreboth
+export LESSHISTFILE=-
+
 # NAS env variable for mount script (see $HOME/.local/bin)
 export NAS_LOCAL_IP="192.168.1.20"
 export NAS_SHARED_PATH="/volume1/NAS_SHARED"
@@ -25,9 +32,11 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # less
-export LESSHISTFILE=-
-export LESS=' -R '
-[ -x /usr/bin/src-hilite-lesspipe.sh ] && export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS='-R'
+if _lp=$(command -v src-hilite-lesspipe.sh 2>/dev/null); then
+    export LESSOPEN="| $_lp %s"
+fi
+unset _lp
 
 # colored GCC warnings and errors
 export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
@@ -44,4 +53,4 @@ unset _CMEM
 [ -f "${HOME}/.profile.local" ] && . "${HOME}/.profile.local"
 
 # Source ~/.bashrc for interactive shell setup (last, so env is ready)
-[[ -f "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
+[ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"

@@ -12,28 +12,13 @@ if [[ -f /etc/bash.bashrc ]]; then
     . /etc/bash.bashrc
 fi
 
-# cd in directory by typing the directory name
-shopt -s autocd
+# Shell options
+shopt -s autocd 2>/dev/null     # cd en tapant le nom du dossier (bash 4+, silencieux sur bash 3.2)
+shopt -s histappend             # append plutôt qu'overwrite l'historique
+shopt -s checkwinsize           # met à jour LINES/COLUMNS après chaque commande
+#shopt -s globstar              # ** matche récursivement (désactivé)
 
-# Don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-# Unlimited history size
-HISTSIZE=
-HISTFILESIZE=
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+# Note : HISTSIZE/HISTFILESIZE/HISTCONTROL sont dans .profile (env).
 
 # enable color support of ls and also add handy aliases
 if [[ -x "/usr/bin/dircolors" ]]; then
@@ -57,38 +42,40 @@ alias fd="fd -HI"
 alias vim="nvim"
 alias vi="nvim"
 
-# FZF shell integration (Arch: /usr/share/fzf, Debian/Ubuntu: /usr/share/doc/fzf/examples)
+# FZF shell integration (Arch / Debian)
 for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples; do
-    [[ -f "$_fzf_dir/key-bindings.bash" ]] && source "$_fzf_dir/key-bindings.bash"
-    [[ -f "$_fzf_dir/completion.bash" ]] && source "$_fzf_dir/completion.bash"
+    if [[ -f "$_fzf_dir/key-bindings.bash" ]]; then
+        source "$_fzf_dir/key-bindings.bash"
+        [[ -f "$_fzf_dir/completion.bash" ]] && source "$_fzf_dir/completion.bash"
+        break
+    fi
 done
 unset _fzf_dir
 
-# Git prompt and completion source
-if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
-    . "/usr/lib/git-core/git-sh-prompt"
-fi
+# Git prompt + completion
+for _git_sh in /usr/lib/git-core/git-sh-prompt; do
+    [[ -f "$_git_sh" ]] && { . "$_git_sh"; break; }
+done
 
-if [[ -f "/usr/share/git/completion/git-completion.bash" ]]; then
-    . "/usr/share/git/completion/git-completion.bash"
-fi
+for _git_comp in /usr/share/git/completion/git-completion.bash; do
+    [[ -f "$_git_comp" ]] && { . "$_git_comp"; break; }
+done
+unset _git_sh _git_comp
 
-# Colored PS1 definition
-export COLOR_RED="\[\e[91m\]"
-export COLOR_GRE="\[\e[92m\]"
-export COLOR_YEL="\[\e[93m\]"
-export COLOR_BLU="\[\e[94m\]"
-export COLOR_MAG="\[\e[95m\]"
-export COLOR_CYA="\[\e[96m\]"
-export COLOR_WHI="\[\e[97m\]"
-export COLOR_RES="\[\e[0m\]"
+# PS1 — utilisateur en rouge (root en bleu), host, cwd, branche git
+COLOR_RED="\[\e[91m\]"
+COLOR_BLU="\[\e[94m\]"
+COLOR_YEL="\[\e[93m\]"
+COLOR_WHI="\[\e[97m\]"
+COLOR_RES="\[\e[0m\]"
 
-# Red PS1 for user, blue for root
-if [ "`id -u`" -eq 0 ]; then
-    export PS1="${COLOR_BLU}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
+if (( EUID == 0 )); then
+    _user_color="$COLOR_BLU"
 else
-    export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
+    _user_color="$COLOR_RED"
 fi
+PS1="${_user_color}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
+unset _user_color
 
 # Machine-specific shell config (untracked, optional)
 [ -f "${HOME}/.bashrc.local" ] && . "${HOME}/.bashrc.local"
