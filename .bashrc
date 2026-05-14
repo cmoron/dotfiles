@@ -21,7 +21,7 @@ shopt -s checkwinsize           # met à jour LINES/COLUMNS après chaque comman
 # Note : HISTSIZE/HISTFILESIZE/HISTCONTROL sont dans .profile (env).
 
 # enable color support of ls and also add handy aliases
-if [[ -x "/usr/bin/dircolors" ]]; then
+if command -v dircolors >/dev/null; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls="ls --color=auto"
     alias grep="grep --color=auto"

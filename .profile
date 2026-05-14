@@ -25,6 +25,8 @@ export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
 # Homebrew (macOS)
 [ -d /opt/homebrew/bin ] && export PATH="/opt/homebrew/bin:${PATH}"
+# GNU coreutils on macOS (ls, dircolors, diff, ... à la Linux)
+[ -d /opt/homebrew/opt/coreutils/libexec/gnubin ] && export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:${PATH}"
 
 # uv
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
