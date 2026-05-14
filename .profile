@@ -56,5 +56,5 @@ unset _CMEM
 # Machine-specific overrides (untracked, optional)
 [ -f "${HOME}/.profile.local" ] && . "${HOME}/.profile.local"
 
-# Source ~/.bashrc for interactive shell setup (last, so env is ready)
-[ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
+# Source ~/.bashrc for bash interactive shells (skip if zsh sources .profile via .zprofile)
+[ -n "$BASH_VERSION" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
