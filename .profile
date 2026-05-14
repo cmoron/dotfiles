@@ -43,5 +43,8 @@ if [ -f "$_CMEM/scripts/bun-runner.js" ] && ! curl -sf http://localhost:37777/ap
 fi
 unset _CMEM
 
+# Machine-specific overrides (untracked, optional)
+[ -f "${HOME}/.profile.local" ] && . "${HOME}/.profile.local"
+
 # Source ~/.bashrc for interactive shell setup (last, so env is ready)
 [[ -f "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"

@@ -89,3 +89,6 @@ if [ "`id -u`" -eq 0 ]; then
 else
     export PS1="${COLOR_RED}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 fi
+
+# Machine-specific shell config (untracked, optional)
+[ -f "${HOME}/.bashrc.local" ] && . "${HOME}/.bashrc.local"
