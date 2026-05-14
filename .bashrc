@@ -12,6 +12,9 @@ if [[ -f /etc/bash.bashrc ]]; then
     . /etc/bash.bashrc
 fi
 
+# macOS : silence the bash-3.2 deprecation warning (env var lue par bash)
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # Shell options
 shopt -s autocd 2>/dev/null     # cd en tapant le nom du dossier (bash 4+, silencieux sur bash 3.2)
 shopt -s histappend             # append plutôt qu'overwrite l'historique
@@ -52,7 +55,7 @@ for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples /opt/homebrew/opt/fzf
 done
 unset _fzf_dir
 
-# Git prompt + completion
+# Git prompt + completion (Arch / macOS Brew)
 for _git_sh in /usr/lib/git-core/git-sh-prompt /opt/homebrew/etc/bash_completion.d/git-prompt.sh; do
     [[ -f "$_git_sh" ]] && { . "$_git_sh"; break; }
 done
@@ -76,6 +79,9 @@ else
 fi
 PS1="${_user_color}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 unset _user_color
+
+# iTerm2 shell integration (macOS, après PS1 pour s'enregistrer correctement)
+[ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
 
 # Machine-specific shell config (untracked, optional)
 [ -f "${HOME}/.bashrc.local" ] && . "${HOME}/.bashrc.local"
