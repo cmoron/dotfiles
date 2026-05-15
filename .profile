@@ -41,16 +41,19 @@ unset _lp
 # colored GCC warnings and errors
 export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 
-# Pre-start claude-mem worker to avoid SessionStart race condition on first Claude Code launch
+# Pre-start claude-mem worker to avoid SessionStart race on first Claude Code launch.
+# POSIX-only syntax: ce fichier est sourcé par bash ET par zsh (emulate sh via .zprofile),
+# où `&>` ne redirige pas mais met en arrière-plan. On pipe '{}' pour que bun-runner ne
+# traite pas un stdin vide comme une erreur (claude-mem issue #2188).
 _CMEM="$HOME/.claude/plugins/marketplaces/thedotmack/plugin"
-if [ -f "$_CMEM/scripts/bun-runner.js" ] && ! curl -sf http://localhost:37777/api/health &>/dev/null; then
-  node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start &>/dev/null &
-  disown
+if [ -f "$_CMEM/scripts/bun-runner.js" ]; then
+  echo '{}' | node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start >/dev/null 2>&1 &
+  disown 2>/dev/null
 fi
 unset _CMEM
 
 # Machine-specific overrides (untracked, optional)
 [ -f "${HOME}/.profile.local" ] && . "${HOME}/.profile.local"
 
-# Source ~/.bashrc for interactive shell setup (last, so env is ready)
-[ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
+# Source ~/.bashrc for bash interactive shells (skip if zsh sources .profile via .zprofile)
+[ -n "$BASH_VERSION" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
