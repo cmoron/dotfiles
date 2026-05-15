@@ -1,5 +1,6 @@
 # ~/.zshrc — shell interactif zsh.
-# Org : options · completion · tools · aliases · keybindings · hooks · local.
+# Org : options · completion · tools · aliases · keybindings · hooks ·
+#       plugins · local.
 
 #───────────────────────────────────────────────────────────────────────────
 # 1. OPTIONS
@@ -72,11 +73,38 @@ unset _fzf
 # 4. ALIASES (pur renommage : nom court, paramètres tapés à la main)
 #───────────────────────────────────────────────────────────────────────────
 
-alias ls='ls --color=auto'    # couleur seule (affichage, pas un paramètre)
-alias ll='ls -lh'             # cas particuliers : conventions ls universelles
-alias la='ls -A'
-alias l='ls -CF'
-alias lla='ls -lAh'
+# ls → eza si dispo (icônes + couleurs pastel), sinon fallback ls natif.
+# ll/la/l/lla = conventions universelles.
+if command -v eza >/dev/null; then
+    alias ls='eza --color=auto --icons=auto --group-directories-first'
+    alias ll='eza -l --color=auto --icons=auto --group-directories-first --git'
+    alias la='eza -a --color=auto --icons=auto --group-directories-first'
+    alias l='eza --color=auto --icons=auto --group-directories-first'
+    alias lla='eza -la --color=auto --icons=auto --group-directories-first --git'
+
+    # Thème pastel (palette Catppuccin Mocha). eza 0.18 n'a pas encore de
+    # theme.yml → on colore via EZA_COLORS, extension de LS_COLORS.
+    # Codes : 38;2;R;G;B (truecolor) ; suffixe ;1 = gras, ;4 = souligné.
+    EZA_COLORS="di=38;2;137;180;250;1:ex=38;2;166;227;161;1:fi=38;2;205;214;244"
+    EZA_COLORS+=":ln=38;2;148;226;213:or=38;2;243;139;168:pi=38;2;147;153;178"
+    EZA_COLORS+=":so=38;2;147;153;178:bd=38;2;250;179;135:cd=38;2;250;179;135"
+    EZA_COLORS+=":ur=38;2;249;226;175:uw=38;2;250;179;135:ux=38;2;166;227;161"
+    EZA_COLORS+=":ue=38;2;166;227;161:gr=38;2;186;194;222:gw=38;2;250;179;135"
+    EZA_COLORS+=":gx=38;2;166;227;161:tr=38;2;166;173;200:tw=38;2;250;179;135"
+    EZA_COLORS+=":tx=38;2;166;227;161:su=38;2;203;166;247:sf=38;2;203;166;247"
+    EZA_COLORS+=":uu=38;2;249;226;175:un=38;2;166;173;200:gu=38;2;186;194;222"
+    EZA_COLORS+=":gn=38;2;166;173;200:da=38;2;137;220;235:sn=38;2;148;226;213"
+    EZA_COLORS+=":sb=38;2;166;173;200:ga=38;2;166;227;161:gm=38;2;249;226;175"
+    EZA_COLORS+=":gd=38;2;243;139;168:gv=38;2;148;226;213:gt=38;2;203;166;247"
+    EZA_COLORS+=":xx=38;2;147;153;178:hd=38;2;180;190;254;4:lp=38;2;148;226;213"
+    export EZA_COLORS
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -lh'
+    alias la='ls -A'
+    alias l='ls -CF'
+    alias lla='ls -lAh'
+fi
 alias g='git'
 alias vi='nvim'
 alias vim='nvim'
@@ -107,7 +135,23 @@ add-zsh-hook precmd  _set-title-precmd
 add-zsh-hook preexec _set-title-preexec
 
 #───────────────────────────────────────────────────────────────────────────
-# 7. LOCAL OVERRIDES (config machine-specific, non versionnée)
+# 7. PLUGINS (clonés par install-zsh-setup, sourcés si présents)
+#───────────────────────────────────────────────────────────────────────────
+
+ZSH_PLUGINS="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
+
+# Coloration de la commande pendant la frappe : vert = commande valide,
+# rouge = introuvable. À sourcer avant les autosuggestions.
+_p="$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f "$_p" ]] && source "$_p"
+
+# Suggestion grise depuis l'historique (→ ou Ctrl-E pour accepter).
+_p="$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -f "$_p" ]] && source "$_p"
+unset _p
+
+#───────────────────────────────────────────────────────────────────────────
+# 8. LOCAL OVERRIDES (config machine-specific, non versionnée)
 #───────────────────────────────────────────────────────────────────────────
 
 # Sourcé en dernier pour pouvoir surcharger aliases, options et tools.
