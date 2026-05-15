@@ -77,10 +77,10 @@ unset _fzf
 # ll/la/l/lla = conventions universelles.
 if command -v eza >/dev/null; then
     alias ls='eza --color=auto --icons=auto --group-directories-first'
-    alias ll='eza -l --color=auto --icons=auto --group-directories-first --git'
+    alias ll='eza -lg --color=auto --icons=auto --group-directories-first --git'
     alias la='eza -a --color=auto --icons=auto --group-directories-first'
     alias l='eza --color=auto --icons=auto --group-directories-first'
-    alias lla='eza -la --color=auto --icons=auto --group-directories-first --git'
+    alias lla='eza -lag --color=auto --icons=auto --group-directories-first --git'
 
     # Thème pastel (palette Catppuccin Mocha). eza 0.18 n'a pas encore de
     # theme.yml → on colore via EZA_COLORS, extension de LS_COLORS.
