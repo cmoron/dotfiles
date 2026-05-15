@@ -73,6 +73,10 @@ unset _fzf
 #───────────────────────────────────────────────────────────────────────────
 
 alias ls='ls --color=auto'    # couleur seule (affichage, pas un paramètre)
+alias ll='ls -lh'             # cas particuliers : conventions ls universelles
+alias la='ls -A'
+alias l='ls -CF'
+alias lla='ls -lAh'
 alias g='git'
 alias vi='nvim'
 alias vim='nvim'
