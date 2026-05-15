@@ -82,21 +82,24 @@ if command -v eza >/dev/null; then
     alias l='eza --color=auto --icons=auto --group-directories-first'
     alias lla='eza -lag --color=auto --icons=auto --group-directories-first --git'
 
-    # Thème pastel (palette Catppuccin Mocha). eza 0.18 n'a pas encore de
+    # Thème sobre (palette Catppuccin Mocha). eza 0.18 n'a pas encore de
     # theme.yml → on colore via EZA_COLORS, extension de LS_COLORS.
-    # Codes : 38;2;R;G;B (truecolor) ; suffixe ;1 = gras, ;4 = souligné.
+    # Couleur réservée au sens : dossier (bleu), exécutable (vert), lien
+    # (teal), statut git. Date/taille/user/groupe/lecture → blanc ou gris.
+    # Codes : 38;2;R;G;B ; suffixe ;1 = gras, ;4 = souligné.
     EZA_COLORS="di=38;2;137;180;250;1:ex=38;2;166;227;161;1:fi=38;2;205;214;244"
-    EZA_COLORS+=":ln=38;2;148;226;213:or=38;2;243;139;168:pi=38;2;147;153;178"
-    EZA_COLORS+=":so=38;2;147;153;178:bd=38;2;250;179;135:cd=38;2;250;179;135"
-    EZA_COLORS+=":ur=38;2;249;226;175:uw=38;2;250;179;135:ux=38;2;166;227;161"
-    EZA_COLORS+=":ue=38;2;166;227;161:gr=38;2;186;194;222:gw=38;2;250;179;135"
-    EZA_COLORS+=":gx=38;2;166;227;161:tr=38;2;166;173;200:tw=38;2;250;179;135"
-    EZA_COLORS+=":tx=38;2;166;227;161:su=38;2;203;166;247:sf=38;2;203;166;247"
-    EZA_COLORS+=":uu=38;2;249;226;175:un=38;2;166;173;200:gu=38;2;186;194;222"
-    EZA_COLORS+=":gn=38;2;166;173;200:da=38;2;137;220;235:sn=38;2;148;226;213"
-    EZA_COLORS+=":sb=38;2;166;173;200:ga=38;2;166;227;161:gm=38;2;249;226;175"
-    EZA_COLORS+=":gd=38;2;243;139;168:gv=38;2;148;226;213:gt=38;2;203;166;247"
-    EZA_COLORS+=":xx=38;2;147;153;178:hd=38;2;180;190;254;4:lp=38;2;148;226;213"
+    EZA_COLORS+=":ln=38;2;148;226;213:lp=38;2;148;226;213:or=38;2;243;139;168"
+    EZA_COLORS+=":pi=38;2;147;153;178:so=38;2;147;153;178:bd=38;2;147;153;178"
+    EZA_COLORS+=":cd=38;2;147;153;178"
+    EZA_COLORS+=":ur=38;2;147;153;178:gr=38;2;147;153;178:tr=38;2;147;153;178"
+    EZA_COLORS+=":uw=38;2;205;214;244:gw=38;2;205;214;244:tw=38;2;205;214;244"
+    EZA_COLORS+=":ux=38;2;166;227;161:gx=38;2;166;227;161:tx=38;2;166;227;161"
+    EZA_COLORS+=":ue=38;2;166;227;161:su=38;2;203;166;247:sf=38;2;203;166;247"
+    EZA_COLORS+=":uu=38;2;205;214;244:un=38;2;147;153;178:gu=38;2;205;214;244"
+    EZA_COLORS+=":gn=38;2;147;153;178:da=38;2;205;214;244:sn=38;2;205;214;244"
+    EZA_COLORS+=":sb=38;2;147;153;178:xx=38;2;147;153;178:hd=38;2;166;173;200;4"
+    EZA_COLORS+=":ga=38;2;166;227;161:gm=38;2;249;226;175:gd=38;2;243;139;168"
+    EZA_COLORS+=":gv=38;2;148;226;213:gt=38;2;250;179;135"
     export EZA_COLORS
 else
     alias ls='ls --color=auto'
