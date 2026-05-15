@@ -1,9 +1,7 @@
-# Starship prompt — config légère, sans glyphs Nerd Font requis.
-# Doc : https://starship.rs/config
-
-# Format en deux lignes : contexte + caractère d'invite.
-# Ligne 1 : user (si root/ssh) · cwd · git branch+status · langage actif · durée
-# Ligne 2 : ❯ (vert si succès, rouge si erreur précédente)
+# Starship prompt — clone visuel du PS1 bash Arch :
+#   user@host ~/path (branch) $
+# User rouge (bleu si root), host blanc, path jaune, branche/status blanc, $ blanc.
+# Bonus par rapport au PS1 bash : durée si >2s, time à droite, statut git détaillé.
 
 format = """
 $username\
@@ -18,152 +16,148 @@ $nodejs\
 $bun\
 $golang\
 $package\
-$cmd_duration
+$cmd_duration\
 $character"""
 
-# Right prompt : timestamp + jobs
 right_format = """$jobs$time"""
 
-add_newline = true                   # ligne vide avant chaque prompt
+add_newline = false                  # pas de ligne vide avant le prompt
 scan_timeout = 30
 command_timeout = 1000
 palette = "cyril"
 
 [palettes.cyril]
-# Palette sobre, lisible en clair & sombre (ANSI 256)
-fg          = "#d4d4d4"
-muted       = "#7d7d7d"
-accent      = "#7aa2f7"   # bleu
-ok          = "#9ece6a"   # vert
-warn        = "#e0af68"   # jaune
-err         = "#f7768e"   # rouge
-purple      = "#bb9af7"
-cyan        = "#7dcfff"
+red    = "#ff6b6b"   # user
+blue   = "#7aa2f7"   # root
+white  = "#d4d4d4"   # @, host, branche, $
+yellow = "#e0af68"   # cwd
+muted  = "#7d7d7d"   # cmd_duration, time
+ok     = "#9ece6a"
+err    = "#f7768e"
+purple = "#bb9af7"
+cyan   = "#7dcfff"
 
-# ── Caractère d'invite (vert ok, rouge ko) ──
+# ── $ d'invite (blanc OK, rouge si dernière commande KO).
+# Espace inclus dans le symbole pour garantir un séparateur même si tous les
+# modules précédents (git, langage, cmd_duration) sont absents.
 [character]
-success_symbol = "[❯](bold ok)"
-error_symbol   = "[❯](bold err)"
-vimcmd_symbol  = "[❮](bold accent)"
+success_symbol = "[ \\$](white)"
+error_symbol   = "[ \\$](bold err)"
+vimcmd_symbol  = "[ <](bold blue)"
 
-# ── User (visible seulement si root ou ssh) ──
+# ── User : toujours visible (rouge non-root, bleu root) ──
 [username]
-style_user      = "muted"
-style_root      = "bold err"
-format          = "[$user]($style)@"
-disabled        = false
-show_always     = false
+style_user  = "bold red"
+style_root  = "bold blue"
+format      = "[$user]($style)"
+show_always = true
+disabled    = false
 
-# ── Host (visible seulement si SSH) ──
+# ── Host : toujours visible (clone bash) ──
 [hostname]
-ssh_only        = true
-format          = "[$hostname](muted) "
-trim_at         = "."
-disabled        = false
+ssh_only = false
+format   = "[@$hostname](white) "
+trim_at  = "."
+disabled = false
 
-# ── Directory ──
+# ── Directory : full path façon \w (pas de troncature) ──
 [directory]
-truncation_length = 4
-truncate_to_repo  = false
-read_only         = "ro"
-read_only_style   = "warn"
-style             = "bold accent"
-format            = "[$path]($style)[$read_only]($read_only_style) "
+truncation_length  = 100             # pratiquement pas de troncature
+truncate_to_repo   = false
+read_only          = " ro"
+read_only_style    = "err"
+style              = "yellow"
+format             = "[$path]($style)[$read_only]($read_only_style)"
 
-[directory.substitutions]
-"~/src/dotfiles" = "~dot"
-"~/.claude"       = "~claude"
-"~/src"           = "~src"
-
-# ── Git ──
+# ── Git branch : `(branch)` en blanc, façon __git_ps1 ──
 [git_branch]
-symbol          = ""
-format          = "[$symbol$branch(:$remote_branch)](purple) "
+symbol            = ""
+format            = " [\\($branch\\)](white)"
 truncation_length = 30
 
+# ── Git status : indicateurs compacts collés après la branche ──
 [git_status]
-style           = "bold warn"
-format          = "[$all_status$ahead_behind]($style) "
-conflicted      = "≠"
-ahead           = "↑${count}"
-behind          = "↓${count}"
-diverged        = "↕↑${ahead_count}↓${behind_count}"
-up_to_date      = ""
-untracked       = "?"
-stashed         = "*"
-modified        = "!"
-staged          = "+${count}"
-renamed         = "»"
-deleted         = "x"
+style      = "white"
+format     = "[$all_status$ahead_behind]($style)"
+conflicted = " ≠"
+ahead      = " ↑${count}"
+behind     = " ↓${count}"
+diverged   = " ↕↑${ahead_count}↓${behind_count}"
+up_to_date = ""
+untracked  = " ?"
+stashed    = " *"
+modified   = " !"
+staged     = " +${count}"
+renamed    = " »"
+deleted    = " x"
 
 [git_state]
-format          = "[\\($state( $progress_current of $progress_total)\\)](err) "
-cherry_pick     = "cherry"
-rebase          = "rebase"
-merge           = "merge"
-revert          = "revert"
-bisect          = "bisect"
-am              = "am"
-am_or_rebase    = "am/rebase"
+format       = " [\\($state( $progress_current of $progress_total)\\)](err)"
+cherry_pick  = "cherry"
+rebase       = "rebase"
+merge        = "merge"
+revert       = "revert"
+bisect       = "bisect"
+am           = "am"
+am_or_rebase = "am/rebase"
 
-# ── Languages ──
+# ── Languages (collés après git, avant la durée) ──
 [python]
 symbol          = "py "
-format          = "[\\($symbol$version$virtualenv\\)](cyan) "
+format          = " [\\($symbol$version$virtualenv\\)](cyan)"
 detect_extensions = ["py", "ipynb"]
 detect_files    = ["pyproject.toml", "requirements.txt", "setup.py", ".python-version", "uv.lock"]
 
 [rust]
-symbol          = "rs "
-format          = "[\\($symbol$version\\)](warn) "
+symbol = "rs "
+format = " [\\($symbol$version\\)](yellow)"
 
 [nodejs]
-symbol          = "node "
-format          = "[\\($symbol$version\\)](ok) "
-detect_files    = ["package.json", ".nvmrc"]
+symbol            = "node "
+format            = " [\\($symbol$version\\)](ok)"
+detect_files      = ["package.json", ".nvmrc"]
 not_capable_style = "muted"
 
 [bun]
-symbol          = "bun "
-format          = "[\\($symbol$version\\)](purple) "
-detect_files    = ["bun.lockb", "bunfig.toml"]
+symbol       = "bun "
+format       = " [\\($symbol$version\\)](purple)"
+detect_files = ["bun.lockb", "bunfig.toml"]
 
 [golang]
-symbol          = "go "
-format          = "[\\($symbol$version\\)](cyan) "
+symbol = "go "
+format = " [\\($symbol$version\\)](cyan)"
 
 [package]
-symbol          = "pkg "
-disabled        = true
+disabled = true
 
 # ── Cmd duration ──
 [cmd_duration]
-min_time        = 2_000     # affiché si > 2s
-format          = "[took $duration](muted) "
+min_time          = 2_000
+format            = " [took $duration](muted)"
 show_milliseconds = false
 
-# ── Time (right prompt) ──
+# ── Right prompt : timestamp + jobs ──
 [time]
-disabled        = false
-format          = "[$time](muted)"
-time_format     = "%H:%M:%S"
-use_12hr        = false
+disabled    = false
+format      = "[$time](muted)"
+time_format = "%H:%M:%S"
+use_12hr    = false
 
-# ── Jobs (right prompt) ──
 [jobs]
-symbol          = "⚙ "
-threshold       = 1
-format          = "[$symbol$number](warn) "
+symbol    = "⚙ "
+threshold = 1
+format    = "[$symbol$number](err) "
 
-# ── Misc cleanup ──
+# ── Espace avant le $ ──
+# Les modules ci-dessus se terminent sans espace → on en injecte un avant $character.
 [line_break]
-disabled        = false
+disabled = false
 
 [aws]
-disabled        = true
+disabled = true
 
 [gcloud]
-disabled        = true
+disabled = true
 
 [kubernetes]
-disabled        = true
+disabled = true

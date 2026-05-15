@@ -19,6 +19,10 @@ setopt PROMPT_SUBST             # substitution dans PS1 (utile pour starship & h
 setopt NO_BEEP                  # pas de bip à la moindre erreur
 setopt NOTIFY                   # status des jobs background dès qu'ils finissent
 
+# WORDCHARS : retire `/` pour que Ctrl-W / Ctrl-Backspace s'arrêtent aux séparateurs
+# de chemin (ex: `xxx/yyy` → supprime juste `yyy` puis `/`). Default zsh inclut `/`.
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
 # ── History (les valeurs sont dans .profile : HISTSIZE/HISTFILESIZE/HISTCONTROL) ──
 HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
 mkdir -p "${HISTFILE:h}"
@@ -66,12 +70,6 @@ zinit wait lucid for \
         zsh-users/zsh-history-substring-search \
     Aloxaf/fzf-tab \
     hlissner/zsh-autopair
-
-# you-should-use : rappel discret quand on tape la commande complète au lieu d'un alias
-zinit wait lucid for \
-    MichaelAquilina/zsh-you-should-use
-export YSU_MESSAGE_POSITION="after"
-export YSU_HARDCORE=0   # rappel mais sans bloquer
 
 #───────────────────────────────────────────────────────────────────────────
 # 4. COMPLETION STYLING
@@ -176,14 +174,6 @@ alias path='echo $PATH | tr ":" "\n"'
 alias reload='source ${ZDOTDIR:-$HOME}/.zshrc && rehash && echo "zshrc rechargé"'
 alias zshconf='${EDITOR:-nvim} ~/.zshrc'
 alias dot='cd ~/src/dotfiles'                    # raccourci dotfiles
-
-# Git shortcuts (en plus des alias dans .config/git/config)
-alias gst='git status -sb'
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gl='git log --oneline --graph --decorate -20'
-alias gp='git push'
-alias gpl='git pull'
 
 # Suffix aliases : `./file.rs` ouvre dans nvim, `./file.json` aussi, etc.
 alias -s {rs,py,ts,tsx,js,jsx,md,toml,yaml,yml,json,sh,zsh,conf,txt}='${EDITOR:-nvim}'
@@ -315,7 +305,13 @@ bindkey '^X^E' edit-command-line
 autoload -Uz add-zsh-hook
 zmodload zsh/datetime  # pour EPOCHSECONDS
 
-# Titre de tab terminal (kitty / iTerm2 / autres) : commande en cours sinon cwd
+# Force le curseur en block clignotant à chaque prompt (DECSCUSR \e[1 q).
+# Robust contre les plugins/shell-integrations qui passent le curseur en barre.
+# `\e[1 q` = block clignotant · `\e[2 q` = block plein · `\e[5 q` = barre clignotante.
+_force-cursor-block() { printf '\e[1 q' }
+add-zsh-hook precmd _force-cursor-block
+
+# Titre de tab terminal (kitty / autres) : commande en cours sinon cwd
 _set-title-precmd()  { print -Pn '\e]0;%n@%m:%~\a' }
 _set-title-preexec() { print -Pn "\e]0;${1//[^[:print:]]/}\a" }
 add-zsh-hook precmd  _set-title-precmd
