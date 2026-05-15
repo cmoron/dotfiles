@@ -1,0 +1,41 @@
+# Atuin — historique shell remplaçant Ctrl-R.
+# Mode local par défaut (pas de sync cloud). Pour activer sync :
+#   atuin register --email cyril@... && atuin import auto && atuin sync
+
+# Recherche
+search_mode      = "fuzzy"            # fuzzy, prefix, fulltext, skim
+filter_mode      = "global"           # global, host, session, directory
+filter_mode_shell_up_key_binding = "session"  # flèche haut filtrée par session (mais désactivée plus bas)
+style            = "compact"
+inline_height    = 20                 # taille de la TUI inline
+show_help        = true
+show_preview     = true
+prefers_reduced_motion = false
+exit_mode        = "return-query"     # Esc renvoie la query, pas la commande sélectionnée
+keymap_mode      = "auto"
+
+# Affichage
+invert           = false              # query en bas (style classique)
+show_tabs        = true
+word_jump_mode   = "emacs"
+
+# Stockage
+auto_sync        = false              # pas de sync auto (mode local)
+update_check     = false              # pas de ping update
+sync_address     = "https://api.atuin.sh"
+sync_frequency   = "0"
+
+# Stats
+common_subcommands = ["cargo", "git", "go", "kubectl", "npm", "bun", "pnpm", "uv", "pip", "brew", "docker"]
+common_prefix     = ["sudo"]
+
+# Comportement
+dialect          = "uk"               # date format DD/MM (us = MM/DD)
+timezone         = "local"
+
+# Couleurs UI (ajustées au thème palette starship)
+[theme]
+name             = "default"
+
+[stats]
+# Top 10 commandes les plus utilisées (atuin stats)
