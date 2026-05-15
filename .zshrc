@@ -1,6 +1,6 @@
 # ~/.zshrc — shell interactif zsh.
 # Org : options · zinit · plugins · completion · tools · aliases · functions ·
-#       named dirs · keybindings · hooks · greeting.
+#       named dirs · keybindings · hooks · local overrides · greeting.
 # Architecture : zinit en turbo mode → startup < 100ms même avec ~6 plugins.
 
 #───────────────────────────────────────────────────────────────────────────
@@ -175,7 +175,7 @@ alias free='free -h'
 alias path='echo $PATH | tr ":" "\n"'
 alias reload='source ${ZDOTDIR:-$HOME}/.zshrc && rehash && echo "zshrc rechargé"'
 alias zshconf='${EDITOR:-nvim} ~/.zshrc'
-alias dot='cd ~/conf/dotfiles'                   # raccourci dotfiles
+alias dot='cd ~/src/dotfiles'                    # raccourci dotfiles
 
 # Git shortcuts (en plus des alias dans .config/git/config)
 alias gst='git status -sb'
@@ -282,7 +282,7 @@ cdr() { cd "$(git rev-parse --show-toplevel)" 2>/dev/null || echo "pas dans un r
 # 8. NAMED DIRECTORIES (utilisables comme `cd ~dot`, `cd ~claude`, …)
 #───────────────────────────────────────────────────────────────────────────
 
-hash -d dot=${HOME}/conf/dotfiles
+hash -d dot=${HOME}/src/dotfiles
 hash -d claude=${HOME}/.claude
 hash -d src=${HOME}/src
 hash -d conf=${HOME}/.config
@@ -337,7 +337,15 @@ add-zsh-hook preexec _notif-preexec
 add-zsh-hook precmd  _notif-precmd
 
 #───────────────────────────────────────────────────────────────────────────
-# 11. GREETING (première session du jour seulement, sinon silencieux)
+# 11. LOCAL OVERRIDES (config machine-specific, non versionnée)
+#───────────────────────────────────────────────────────────────────────────
+
+# Sourcé en dernier (avant le greeting) pour pouvoir surcharger aliases,
+# options et tools. Pendant POSIX/env, voir ~/.profile.local (via .zprofile).
+[[ -f "${HOME}/.zshrc.local" ]] && source "${HOME}/.zshrc.local"
+
+#───────────────────────────────────────────────────────────────────────────
+# 12. GREETING (première session du jour seulement, sinon silencieux)
 #───────────────────────────────────────────────────────────────────────────
 
 _zsh-greet() {

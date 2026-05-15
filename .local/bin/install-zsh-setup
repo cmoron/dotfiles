@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-DOTFILES="${DOTFILES:-$HOME/conf/dotfiles}"
+DOTFILES="${DOTFILES:-$HOME/src/dotfiles}"
 [[ ! -d "$DOTFILES" ]] && { echo "❌ DOTFILES introuvable : $DOTFILES"; exit 1; }
 
 say()  { printf '\033[1;36m▶\033[0m %s\n' "$*"; }

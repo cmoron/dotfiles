@@ -71,7 +71,7 @@ style             = "bold accent"
 format            = "[$path]($style)[$read_only]($read_only_style) "
 
 [directory.substitutions]
-"~/conf/dotfiles" = "~dot"
+"~/src/dotfiles" = "~dot"
 "~/.claude"       = "~claude"
 "~/src"           = "~src"
 
