@@ -1,16 +1,31 @@
-# Ghostty — config minimale.
+# Ghostty — single source of truth.
+# Symlinkée depuis ~/Library/Application Support/com.mitchellh.ghostty/
+# (config + config.ghostty), qui est le chemin réellement lu par Ghostty sur macOS.
 # Doc complète : ghostty +show-config --default | less
 
+# ── Apparence ──
+font-family = Hack Nerd Font
+font-size = 14
+
+# Option agit comme Alt (Option+. → insert last arg, etc.)
+macos-option-as-alt = left
+
+# ── Shell ──
 # Force zsh login shell. Sans ça, Ghostty hérite du $SHELL de la session
 # GUI macOS, qui peut être obsolète tant que la session n'a pas été
 # rejouée après chsh.
 command = /bin/zsh --login
 
-# Shell integration (defaults already good, listed for visibility)
+# ── Shell integration ──
+# On retire `cursor` des features pour empêcher le shell de forcer une barre.
+# Le block est par ailleurs forcé côté zsh (precmd hook DECSCUSR \e[2 q).
 shell-integration = detect
-shell-integration-features = cursor,no-sudo,title
+shell-integration-features = no-cursor,no-sudo,title
 
-# Confort
+# ── Curseur ──
+cursor-style = block
+
+# ── Confort ──
 copy-on-select = clipboard
 mouse-hide-while-typing = true
 window-padding-x = 8
