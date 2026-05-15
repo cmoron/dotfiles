@@ -91,9 +91,6 @@ fi
 alias g='git'
 alias vi='nvim'
 alias vim='nvim'
-alias dot='cd ~/src/dotfiles'
-alias reload='source ${ZDOTDIR:-$HOME}/.zshrc && rehash && echo "zshrc rechargé"'
-alias zshconf='${EDITOR:-nvim} ~/.zshrc'
 
 #───────────────────────────────────────────────────────────────────────────
 # 5. KEYBINDINGS
