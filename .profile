@@ -4,6 +4,7 @@
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_STATE_HOME="${HOME}/.local/state"
 
 # Default tools
 export EDITOR="nvim"
@@ -31,6 +32,9 @@ export PATH="${HOME}/.cargo/bin:${PATH}"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# atuin (binaire installé hors apt, dans ~/.atuin/bin)
+[ -f "$HOME/.atuin/bin/env" ] && . "$HOME/.atuin/bin/env"
+
 # less
 export LESS='-R'
 if _lp=$(command -v src-hilite-lesspipe.sh 2>/dev/null); then
@@ -42,15 +46,20 @@ unset _lp
 export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 
 # Pre-start claude-mem worker to avoid SessionStart race on first Claude Code launch.
-# POSIX-only syntax: ce fichier est sourcé par bash ET par zsh (emulate sh via .zprofile),
-# où `&>` ne redirige pas mais met en arrière-plan. On pipe '{}' pour que bun-runner ne
-# traite pas un stdin vide comme une erreur (claude-mem issue #2188).
-_CMEM="$HOME/.claude/plugins/marketplaces/thedotmack/plugin"
-if [ -f "$_CMEM/scripts/bun-runner.js" ]; then
-  echo '{}' | node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start >/dev/null 2>&1 &
-  disown 2>/dev/null
-fi
-unset _CMEM
+# Shells interactifs uniquement : .profile est sourcé par .zshenv pour TOUS les zsh,
+# on ne veut pas spawn le worker sur chaque `zsh -c` ou script.
+# POSIX-only : sourcé par bash ET par zsh (emulate sh). `&` met en arrière-plan,
+# '{}' en stdin pour que bun-runner ne traite pas un stdin vide comme erreur (#2188).
+case $- in
+  *i*)
+    _CMEM="$HOME/.claude/plugins/marketplaces/thedotmack/plugin"
+    if [ -f "$_CMEM/scripts/bun-runner.js" ]; then
+      echo '{}' | node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start >/dev/null 2>&1 &
+      disown 2>/dev/null
+    fi
+    unset _CMEM
+    ;;
+esac
 
 # Machine-specific overrides (untracked, optional)
 [ -f "${HOME}/.profile.local" ] && . "${HOME}/.profile.local"

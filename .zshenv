@@ -1,8 +1,8 @@
-# ~/.zshenv — sourcé par TOUS les zsh (login, interactif, scripts).
-# Garde minimal : tout ce qui doit être présent même pour `zsh -c "cmd"`.
-# Les vraies vars d'env (PATH, EDITOR, etc.) sont dans .profile, sourcé par .zprofile.
+# ~/.zshenv — sourcé par TOUS les zsh (login, interactif, scripts, `zsh -c`).
+# On y source .profile pour que PATH & env soient présents partout — y compris
+# dans un zsh interactif NON-login (nouveau tab terminal) ou un `zsh -c`.
+# .profile garde lui-même ses effets de bord (prewarm claude-mem) en interactif.
 
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+[ -f "${HOME}/.profile" ] && emulate sh -c '. "${HOME}/.profile"'
+
+typeset -U path PATH   # PATH sans doublons (si shells zsh imbriqués)

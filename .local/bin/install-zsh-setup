@@ -5,7 +5,7 @@
 # Étapes :
 #   1. install des outils CLI (apt + scripts officiels starship/atuin)
 #   2. clone des plugins zsh (syntax-highlighting, autosuggestions)
-#   3. symlinks .zshenv, .zprofile, .zshrc et .config/{starship.toml,atuin/}
+#   3. symlinks .profile, .zshenv, .zprofile, .zshrc, .config/{starship,atuin}
 #   4. activation du shell : ajout à /etc/shells + chsh (opt-in, demande confirm)
 
 set -euo pipefail
@@ -88,6 +88,8 @@ link() {
 }
 
 mkdir -p "$HOME/.config/atuin"
+# .profile : env POSIX partagé — .zshenv le source pour TOUS les zsh.
+link "$DOTFILES/.profile"                "$HOME/.profile"
 link "$DOTFILES/.zshenv"                 "$HOME/.zshenv"
 link "$DOTFILES/.zprofile"               "$HOME/.zprofile"
 link "$DOTFILES/.zshrc"                  "$HOME/.zshrc"
