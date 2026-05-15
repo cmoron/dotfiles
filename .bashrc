@@ -77,5 +77,10 @@ fi
 PS1="${_user_color}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 unset _user_color
 
+# Atuin : historique shell (Ctrl-R fuzzy TUI)
+. "$HOME/.atuin/bin/env"
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
+
 # Machine-specific shell config (untracked, optional)
 [ -f "${HOME}/.bashrc.local" ] && . "${HOME}/.bashrc.local"
