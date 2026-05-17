@@ -80,8 +80,10 @@ fi
 PS1="${_user_color}\u${COLOR_WHI}@\h ${COLOR_YEL}\w${COLOR_WHI}\$(__git_ps1) \\$ ${COLOR_RES}"
 unset _user_color
 
-# iTerm2 shell integration (macOS, après PS1 pour s'enregistrer correctement)
-[ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
+# Atuin : historique shell (Ctrl-R fuzzy TUI)
+[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+command -v atuin >/dev/null && eval "$(atuin init bash)"
 
 # Machine-specific shell config (untracked, optional)
 [ -f "${HOME}/.bashrc.local" ] && . "${HOME}/.bashrc.local"

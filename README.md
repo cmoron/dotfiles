@@ -14,12 +14,14 @@ kitty, git.
 | `.profile`                | Variables d'env (PATH, HIST*, EDITOR, …), POSIX     |
 | `.bash_profile`           | Symlink vers `.profile`                             |
 | `.bashrc`                 | Shell bash interactif (prompt, aliases, fzf)        |
-| `.zshenv`                 | Env zsh (XDG dirs) sourcé pour tout shell zsh       |
-| `.zprofile`               | Login zsh, source `.profile` en émulation POSIX     |
-| `.zshrc`                  | Shell zsh interactif (zinit, plugins, starship, …)  |
+| `.zshenv`                 | Sourcé par tout zsh, source `.profile` (env + PATH) |
+| `.zprofile`               | Volontairement vide (l'env passe par `.zshenv`)     |
+| `.zshrc`                  | Shell zsh interactif (options, plugins, starship, …)|
 | `.config/starship.toml`   | Config du prompt Starship (zsh + bash)              |
 | `.config/atuin/config.toml` | Config Atuin (historique TUI fuzzy)               |
+| `.config/eza/theme.yml`   | Thème de couleurs pour `eza`                        |
 | `.config/kitty/`          | Émulateur de terminal                               |
+| `.config/ghostty/`        | Émulateur de terminal (force `zsh --login`)         |
 | `.config/nvim/`           | Neovim (lazy-lock géré dans `nvim-config`)          |
 | `.config/git/`            | Config git globale + ignore                         |
 | `.local/bin/`             | Scripts utilitaires (`install-zsh-setup`, …)        |
@@ -42,11 +44,11 @@ symlinks vers `$HOME`.
 ```
 
 Le script :
-1. `brew install` les outils manquants (starship, atuin, zoxide, eza, bat,
-   direnv, tldr, fzf)
-2. Clone `zinit` dans `~/.local/share/zinit/zinit.git`
-3. Symlink `.zshenv`, `.zprofile`, `.zshrc`, `.config/starship.toml`,
-   `.config/atuin/config.toml` vers `$HOME`
+1. `brew install` les outils manquants (`starship`, `atuin`, `eza`, `fzf`)
+2. Clone les plugins zsh (`zsh-syntax-highlighting`, `zsh-autosuggestions`)
+   dans `~/.local/share/zsh/plugins/`
+3. Symlink `.profile`, `.zshenv`, `.zprofile`, `.zshrc` et
+   `.config/{starship.toml,atuin/config.toml,eza/theme.yml}` vers `$HOME`
 4. Propose d'activer zsh comme shell par défaut (`chsh`)
 
 Idempotent : peut être relancé sans casse.
@@ -73,77 +75,74 @@ Pour les icônes dans `eza` et certains glyphs Starship :
 brew install --cask font-hack-nerd-font
 ```
 
-Puis configurer kitty/iTerm2 pour utiliser "Hack Nerd Font".
+Puis configurer kitty/Ghostty pour utiliser "Hack Nerd Font".
 
 ## Stack zsh — qu'est-ce qui est dedans
 
-**Plugin manager** : [`zinit`](https://github.com/zdharma-continuum/zinit) en
-turbo mode → startup `< 100ms` même avec 6 plugins (chargés en arrière-plan
-juste après l'affichage du prompt).
+Config volontairement **minimale** : pas de plugin manager, pas de gadgets.
+Deux plugins sourcés en clair, le reste est natif zsh.
 
-**Plugins** :
+**Plugins** (clonés par `install-zsh-setup` dans `~/.local/share/zsh/plugins/`,
+sourcés s'ils sont présents) :
+
 | Plugin                                | Effet                                              |
 |---------------------------------------|----------------------------------------------------|
-| `fast-syntax-highlighting`            | Highlight syntaxique en temps réel                 |
+| `zsh-syntax-highlighting`             | Highlight de la commande pendant la frappe         |
 | `zsh-autosuggestions`                 | Suggestion grise depuis l'historique               |
-| `zsh-history-substring-search`        | Flèche haut/bas matche par préfixe tapé            |
-| `fzf-tab`                             | Complétion TAB remplacée par fzf avec preview      |
-| `zsh-you-should-use`                  | Rappelle un alias si tu tapes la commande complète |
-| `zsh-autopair`                        | Auto-fermeture `()`, `[]`, `{}`, `""`, `''`        |
 
 **Outils intégrés** :
 - **[Starship](https://starship.rs/)** — prompt configurable, palette custom
   (voir [`.config/starship.toml`](.config/starship.toml)).
-- **[Atuin](https://atuin.sh/)** — historique TUI fuzzy avec preview ;
-  remplace `Ctrl-R`. Mode local par défaut (pas de sync cloud).
-- **[Zoxide](https://github.com/ajeetdsouza/zoxide)** — `z dot`, `z claude` ;
-  apprend tes dossiers fréquents.
-- **[eza](https://eza.rocks/)** — `ls` moderne, alias par défaut.
-- **[bat](https://github.com/sharkdp/bat)** — `cat` avec syntax highlight.
-- **[direnv](https://direnv.net/)** — env per-projet via `.envrc`.
+- **[Atuin](https://atuin.sh/)** — historique TUI fuzzy ; remplace `Ctrl-R`.
+  Flèche haut native zsh conservée. Mode local par défaut (pas de sync cloud).
+- **[eza](https://eza.rocks/)** — `ls` moderne, alias par défaut, thème dans
+  [`.config/eza/theme.yml`](.config/eza/theme.yml).
+- **[fzf](https://github.com/junegunn/fzf)** — key-bindings natifs `Ctrl-T` /
+  `Alt-C`.
 
-## Aliases & fonctions clés
+## Aliases (zsh)
+
+Pur renommage — nom court, paramètres tapés à la main.
 
 | Cmd                  | Effet                                                          |
 |----------------------|----------------------------------------------------------------|
-| `dot`                | `cd ~/conf/dotfiles`                                           |
-| `z <fragment>`       | cd fuzzy via zoxide (`z dot` → dotfiles)                       |
-| `cd ~dot` / `~claude` / `~src` / `~conf` | named directories                            |
-| `take <dir>`         | `mkdir -p <dir> && cd <dir>`                                   |
-| `extract <archive>`  | détecte format (zip, tar.gz, tar.xz, 7z, rar, …) et extrait    |
-| `weather [ville]`    | météo via wttr.in                                              |
-| `cheat <cmd>`        | antisèche via cht.sh                                           |
-| `serve [port]`       | serveur http statique du cwd (`bun` ou python3)                |
-| `gbf`                | git branch fuzzy switch (Ctrl-G aussi)                         |
-| `fkill`              | kill process via fzf                                           |
-| `gi rust,macos`      | génère un `.gitignore` via gitignore.io                        |
-| `cdr`                | cd vers la racine du repo git                                  |
-| `mkv [nom]`          | crée un venv uv                                                |
-| `reload`             | recharge `.zshrc` sans relancer le shell                       |
-| `cmd G pattern`      | pipe vers grep (alias global, idem `L`/`H`/`T`/`C`/`NUL`)      |
-| `./file.rs` (Enter)  | ouvre dans nvim (suffix aliases sur rs/py/ts/md/toml/json/…)   |
+| `ls` / `l`           | `eza` (icônes + couleurs), fallback `ls` natif si eza absent   |
+| `ll` / `lla`         | `eza` long (`-lg` / `-lag --git`)                              |
+| `la`                 | `eza -a` (inclut les dotfiles)                                 |
+| `g`                  | `git`                                                          |
+| `vi` / `vim`         | `nvim`                                                         |
+| `z`                  | `zellij`                                                       |
 
 ## Keybindings (zsh)
 
 | Raccourci      | Effet                                                              |
 |----------------|--------------------------------------------------------------------|
 | `Ctrl-R`       | Atuin TUI fuzzy history                                            |
-| `Ctrl-T`       | fzf file picker (avec preview bat/eza)                             |
-| `Alt-C`        | fzf cd picker (preview eza --tree)                                 |
-| `Ctrl-G`       | fuzzy git branch switch                                            |
-| `Ctrl-X Ctrl-E`| édite la commande courante dans `$EDITOR`                          |
-| flèche haut    | history-substring-search par préfixe (commence à taper)            |
+| `Ctrl-T`       | fzf file picker                                                    |
+| `Alt-C`        | fzf cd picker                                                      |
+| flèche droite  | accepte la suggestion `zsh-autosuggestions`                        |
+
+Mode emacs (`bindkey -e`) par défaut.
 
 ## Comportements automatiques
 
-- **Greeting** quotidien à la première session zsh du jour (mood adapté à
-  l'heure, repo + branche si dans un git, tip random 1/3).
 - **Titre de tab** du terminal mis à jour selon `cwd` (idle) ou commande en
   cours (preexec).
-- **Notif macOS** automatique si une commande prend > 30s.
+- **Curseur** forcé en block clignotant à chaque prompt (robuste contre les
+  shell-integrations qui le passent en barre).
 - **History partagé** en temps réel entre tous les zsh ouverts.
 - **Auto cd/pushd** : taper `dir-name` (sans `cd`) y va, `cd -<TAB>` montre
   l'historique des cd.
+
+## Overrides locaux (non versionnés)
+
+Pour la config spécifique à une machine, sans la committer :
+
+| Fichier            | Sourcé par / quand                                        |
+|--------------------|-----------------------------------------------------------|
+| `~/.profile.local` | `.profile`, après l'env partagé (PATH, vars)              |
+| `~/.bashrc.local`  | `.bashrc`, en fin de fichier (bash interactif)            |
+| `~/.zshrc.local`   | `.zshrc`, en dernier (surcharge aliases, options, tools)  |
 
 ## `PATH`
 
@@ -151,9 +150,9 @@ juste après l'affichage du prompt).
 
 | Préfixe                                       | Outil                        |
 |-----------------------------------------------|------------------------------|
-| `~/.bun/bin`                                  | bun                          |
 | `/opt/homebrew/opt/coreutils/libexec/gnubin`  | GNU coreutils                |
 | `/opt/homebrew/bin`                           | Homebrew                     |
+| `~/.bun/bin`                                  | bun                          |
 | `~/.cargo/bin`                                | binaires Rust                |
 | `~/.local/bin`                                | scripts du repo + uv         |
 
@@ -166,9 +165,9 @@ juste après l'affichage du prompt).
 ## Pré-warm du worker claude-mem
 
 `.profile` lance le worker du plugin
-[`claude-mem`](https://github.com/thedotmack/claude-mem) au login s'il n'est
-pas déjà actif, pour éviter une race condition au `SessionStart` du premier
-lancement de Claude Code.
+[`claude-mem`](https://github.com/thedotmack/claude-mem) au login d'un shell
+**interactif** s'il n'est pas déjà actif, pour éviter une race condition au
+`SessionStart` du premier lancement de Claude Code.
 
 ## Migration de l'historique bash vers atuin
 
