@@ -48,14 +48,14 @@ export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Pre-start claude-mem worker to avoid SessionStart race on first Claude Code launch.
 # Shells interactifs uniquement : .profile est sourcé par .zshenv pour TOUS les zsh,
 # on ne veut pas spawn le worker sur chaque `zsh -c` ou script.
-# POSIX-only : sourcé par bash ET par zsh (emulate sh). `&` met en arrière-plan,
+# Sous-shell `( ... & )` : démarre en arrière-plan sans afficher le job notification
+# (zsh imprime `[n] pid pid` pour tout `&` du shell courant, même avec `disown`).
 # '{}' en stdin pour que bun-runner ne traite pas un stdin vide comme erreur (#2188).
 case $- in
   *i*)
     _CMEM="$HOME/.claude/plugins/marketplaces/thedotmack/plugin"
     if [ -f "$_CMEM/scripts/bun-runner.js" ]; then
-      echo '{}' | node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start >/dev/null 2>&1 &
-      disown 2>/dev/null
+      ( echo '{}' | node "$_CMEM/scripts/bun-runner.js" "$_CMEM/scripts/worker-service.cjs" start >/dev/null 2>&1 & )
     fi
     unset _CMEM
     ;;
