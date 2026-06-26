@@ -42,7 +42,9 @@ setopt HIST_FIND_NO_DUPS      # search dans l'historique : pas de doublons
 
 autoload -Uz compinit && compinit
 
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+# '' en tête = essaie d'abord la casse exacte ; ne bascule en insensible-casse
+# que sans match exact (évite les complétions bâtardes type `loTUSim`).
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' menu select               # menu navigable aux flèches
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*:descriptions' format '[%d]'
