@@ -6,6 +6,7 @@
 # ── Apparence ──
 font-family = Hack Nerd Font
 font-size = 14
+background = #333
 
 # Option agit comme Alt (Option+. → insert last arg, etc.)
 macos-option-as-alt = left
