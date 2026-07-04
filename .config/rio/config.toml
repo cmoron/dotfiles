@@ -41,12 +41,12 @@ keys = [
   # --- Splits (panes tmux-like, natifs rio, déjà actifs) ---
   # Défauts qui marchent déjà : Cmd+D = split à droite, Cmd+Shift+D = split en bas,
   # Ctrl+Cmd+flèches = redimensionner.
-  # Focus vim-style. Rio n'a QUE next/prev (pas de focus directionnel vrai) :
-  # h/k -> split précédent, j/l -> split suivant (meilleure approx spatiale à 2 splits).
-  { key = "h", with = "super", action = "SelectPrevSplit" },          # Cmd + h  (gauche)
-  { key = "k", with = "super", action = "SelectPrevSplit" },          # Cmd + k  (haut)
-  { key = "j", with = "super", action = "SelectNextSplit" },          # Cmd + j  (bas)
-  { key = "l", with = "super", action = "SelectNextSplit" },          # Cmd + l  (droite)
+  # Focus vim-style directionnel (actions SelectSplit* ajoutées par le fork mnc :
+  # focus spatial vrai, plus la cyclique next/prev qui ne marche qu'à 2 splits).
+  { key = "h", with = "super", action = "SelectSplitLeft" },          # Cmd + h  (gauche)
+  { key = "k", with = "super", action = "SelectSplitUp" },            # Cmd + k  (haut)
+  { key = "j", with = "super", action = "SelectSplitDown" },          # Cmd + j  (bas)
+  { key = "l", with = "super", action = "SelectSplitRight" },         # Cmd + l  (droite)
   { key = "w", with = "super", action = "closesplitortab" },   # ferme le split (sinon l'onglet)
 
   # Claude Code : insérer un saut de ligne sans envoyer le prompt.
