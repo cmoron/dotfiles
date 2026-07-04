@@ -17,6 +17,7 @@
 [user]
     email = cyril.moron@gmail.com
     name = Cyril Moron
+	signingkey = /Users/cyril/.ssh/id_ed25519.pub
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
@@ -42,3 +43,9 @@
 	navigate = true
 	line-numbers = true
 	pager = less -FRX
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[gpg "ssh"]
+	allowedSignersFile = /Users/cyril/.ssh/allowed_signers
