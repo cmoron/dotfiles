@@ -12,8 +12,10 @@ selection-background = '#504945'
 selection-foreground = '#ebdbb2'
 
 # Barre d'onglets / splits
+# tabs = texte de l'onglet INACTIF (pas un fond : Rio n'a pas de couleur de fond
+# par onglet). #3c3836 était quasi invisible sur le fond #282828.
 bar         = '#1d2021'
-tabs        = '#3c3836'
+tabs        = '#989984'
 tabs-active = '#fe8019'
 split       = '#504945'
 

@@ -3,11 +3,17 @@
 # Thème Gruvbox Dark — défini dans ~/.config/rio/themes/gruvbox-dark.toml
 theme = "gruvbox-dark"
 
+# Option GAUCHE = Meta/Alt : Option+f / Option+b déplacent le curseur mot à mot
+# (readline/emacs) au lieu d'insérer ƒ ß. Comme `macos-option-as-alt` de Ghostty.
+# Clé RACINE (hors [section]) — sinon silencieusement ignorée.
+# 'left' seulement : l'Option DROITE garde l'AltGr AZERTY ([ ] { } | \ ~ …).
+option-as-alt = "left"
+
 # Forcer bash dans Rio (macOS détecte mal le shell au lancement GUI).
 # Reste scoped à Rio : ne touche pas au shell de login global.
-[shell]
-program = "/opt/homebrew/bin/bash"
-args = ["--login"]
+# [shell]
+# program = "/opt/homebrew/bin/bash"
+# args = ["--login"]
 
 # Raccourcis type Ghostty : Command + rangée des chiffres -> bascule d'onglet.
 # Layout AZERTY (PC) : la rangée du haut produit & é " ' ( - è _ ç SANS Shift.
@@ -24,4 +30,34 @@ keys = [
   { key = "è", with = "super", action = "SelectTab(6)" },  # Cmd + touche 7
   { key = "_", with = "super", action = "SelectTab(7)" },  # Cmd + touche 8
   { key = "ç", with = "super", action = "SelectLastTab" }, # Cmd + touche 9 -> dernier
+
+  # Cmd + flèches -> onglet précédent/suivant ; + Shift -> déplace l'onglet.
+  # Rio bind Cmd+flèches à Action::None par défaut, donc on les libère ici.
+  { key = "left", with = "super", action = "SelectPrevTab" },
+  { key = "right", with = "super", action = "SelectNextTab" },
+  { key = "left", with = "super | shift", action = "MoveCurrentTabToPrev" },
+  { key = "right", with = "super | shift", action = "MoveCurrentTabToNext" },
+
+  # --- Splits (panes tmux-like, natifs rio, déjà actifs) ---
+  # Défauts qui marchent déjà : Cmd+D = split à droite, Cmd+Shift+D = split en bas,
+  # Ctrl+Cmd+flèches = redimensionner.
+  # Focus vim-style. Rio n'a QUE next/prev (pas de focus directionnel vrai) :
+  # h/k -> split précédent, j/l -> split suivant (meilleure approx spatiale à 2 splits).
+  { key = "h", with = "super", action = "SelectPrevSplit" },          # Cmd + h  (gauche)
+  { key = "k", with = "super", action = "SelectPrevSplit" },          # Cmd + k  (haut)
+  { key = "j", with = "super", action = "SelectNextSplit" },          # Cmd + j  (bas)
+  { key = "l", with = "super", action = "SelectNextSplit" },          # Cmd + l  (droite)
+  { key = "w", with = "super", action = "closesplitortab" },   # ferme le split (sinon l'onglet)
+
+  # Claude Code : insérer un saut de ligne sans envoyer le prompt.
+  # Rio ne gère pas Shift+Enter nativement -> on bind ces touches sur "\n"
+  # (line feed = Ctrl+J), le saut de ligne universel de Claude Code.
+  { key = "return", with = "shift", esc = "\n" },
+  { key = "return", with = "option", esc = "\n" },
 ]
+
+# Affiche l'index 1-based devant le titre de chaque onglet ("1 - vim").
+# Le numéro suit la position visuelle : déplacer un onglet le renumérote.
+[navigation]
+display-tab-number = true
+tab-number-separator = " "
