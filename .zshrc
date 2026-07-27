@@ -58,9 +58,9 @@ zstyle ':completion:*' group-name ''
 # Starship : prompt principal
 command -v starship >/dev/null && eval "$(starship init zsh)"
 
-# Atuin : historique fuzzy sur Ctrl-R et flèche haut (zsh-natif = 733 entrées
-# après dédupe globale, atuin en a 16k).
-command -v atuin >/dev/null && eval "$(atuin init zsh)"
+# Atuin : historique fuzzy sur Ctrl-R. Flèche haut laissée à zsh : rappel direct
+# de la commande précédente, sans détour par la TUI.
+command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
 
 # fzf : keybindings natifs (Ctrl-T fichier, Alt-C cd), flags par défaut
 for _fzf in /usr/share/fzf /usr/share/doc/fzf/examples; do
