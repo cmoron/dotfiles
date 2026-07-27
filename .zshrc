@@ -58,8 +58,9 @@ zstyle ':completion:*' group-name ''
 # Starship : prompt principal
 command -v starship >/dev/null && eval "$(starship init zsh)"
 
-# Atuin : historique fuzzy sur Ctrl-R (garde la flèche haut zsh-native)
-command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
+# Atuin : historique fuzzy sur Ctrl-R et flèche haut (zsh-natif = 733 entrées
+# après dédupe globale, atuin en a 16k).
+command -v atuin >/dev/null && eval "$(atuin init zsh)"
 
 # fzf : keybindings natifs (Ctrl-T fichier, Alt-C cd), flags par défaut
 for _fzf in /usr/share/fzf /usr/share/doc/fzf/examples; do
@@ -100,6 +101,11 @@ alias z='zellij'
 #───────────────────────────────────────────────────────────────────────────
 
 bindkey -e                                    # emacs mode (par défaut)
+
+# fzf est sourcé après atuin et lui vole Ctrl-R (sa recherche se limite à
+# l'historique zsh natif). On rend Ctrl-R à atuin, on garde Ctrl-T / Alt-C.
+# Doit rester après `bindkey -e`, qui réécrit le keymap `main`.
+command -v atuin >/dev/null && bindkey '^R' atuin-search
 
 #───────────────────────────────────────────────────────────────────────────
 # 6. HOOKS (titre de tab, curseur)

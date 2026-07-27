@@ -5,7 +5,7 @@
 # Recherche
 search_mode      = "fuzzy"            # fuzzy, prefix, fulltext, skim
 filter_mode      = "global"           # global, host, session, directory
-filter_mode_shell_up_key_binding = "session"  # flèche haut filtrée par session (mais désactivée plus bas)
+filter_mode_shell_up_key_binding = "global"   # flèche haut : tout l'historique, pas juste la session
 style            = "compact"
 inline_height    = 20                 # taille de la TUI inline
 show_help        = true
