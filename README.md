@@ -162,13 +162,6 @@ Pour la config spécifique à une machine, sans la committer :
   s'il existe.
 - **`bun`** (JS/TS) — installer officiel, `~/.bun/bin` dans le `PATH`.
 
-## Pré-warm du worker claude-mem
-
-`.profile` lance le worker du plugin
-[`claude-mem`](https://github.com/thedotmack/claude-mem) au login d'un shell
-**interactif** s'il n'est pas déjà actif, pour éviter une race condition au
-`SessionStart` du premier lancement de Claude Code.
-
 ## Migration de l'historique bash vers atuin
 
 Première fois après install :
