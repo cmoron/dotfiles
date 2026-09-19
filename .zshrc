@@ -95,6 +95,7 @@ alias g='git'
 alias vi='nvim'
 alias vim='nvim'
 alias z='zellij'
+alias t='tmux'
 
 #───────────────────────────────────────────────────────────────────────────
 # 5. KEYBINDINGS

@@ -41,6 +41,7 @@ alias rg="rg --hidden"
 alias fd="fd -HI"
 alias vim="nvim"
 alias vi="nvim"
+alias t='tmux'
 
 # FZF shell integration (Arch / Debian)
 for _fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples; do
