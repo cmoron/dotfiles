@@ -38,16 +38,19 @@ keys = [
   { key = "left", with = "super | shift", action = "MoveCurrentTabToPrev" },
   { key = "right", with = "super | shift", action = "MoveCurrentTabToNext" },
 
-  # --- Splits (panes tmux-like, natifs rio, déjà actifs) ---
-  # Défauts qui marchent déjà : Cmd+D = split à droite, Cmd+Shift+D = split en bas,
-  # Ctrl+Cmd+flèches = redimensionner.
-  # Focus vim-style directionnel (actions SelectSplit* ajoutées par le fork mnc :
-  # focus spatial vrai, plus la cyclique next/prev qui ne marche qu'à 2 splits).
-  { key = "h", with = "super", action = "SelectSplitLeft" },          # Cmd + h  (gauche)
-  { key = "k", with = "super", action = "SelectSplitUp" },            # Cmd + k  (haut)
-  { key = "j", with = "super", action = "SelectSplitDown" },          # Cmd + j  (bas)
-  { key = "l", with = "super", action = "SelectSplitRight" },         # Cmd + l  (droite)
-  { key = "w", with = "super", action = "closesplitortab" },   # ferme le split (sinon l'onglet)
+  # --- Panes tmux ---
+  # Ctrl-Space est le préfixe tmux (NUL, \u0000) ; Rio ne gère plus les splits.
+  { key = "h", with = "super", esc = "\u0000h" },
+  { key = "j", with = "super", esc = "\u0000j" },
+  { key = "k", with = "super", esc = "\u0000k" },
+  { key = "l", with = "super", esc = "\u0000l" },
+  { key = "d", with = "super", esc = "\u0000d" },
+  { key = "d", with = "super | shift", esc = "\u0000D" },
+  { key = "w", with = "super", esc = "\u0000x" },
+  { key = "left", with = "control | super", esc = "\u0000H" },
+  { key = "down", with = "control | super", esc = "\u0000J" },
+  { key = "up", with = "control | super", esc = "\u0000K" },
+  { key = "right", with = "control | super", esc = "\u0000L" },
 
   # Claude Code : insérer un saut de ligne sans envoyer le prompt.
   # Rio ne gère pas Shift+Enter nativement -> on bind ces touches sur "\n"

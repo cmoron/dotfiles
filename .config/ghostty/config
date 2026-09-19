@@ -31,3 +31,17 @@ copy-on-select = clipboard
 mouse-hide-while-typing = true
 window-padding-x = 8
 window-padding-y = 8
+
+# --- Panes tmux ---
+# Ctrl-Space est le préfixe tmux (NUL, \x00) ; Ghostty ne gère plus les splits.
+keybind = super+h=text:\x00h
+keybind = super+j=text:\x00j
+keybind = super+k=text:\x00k
+keybind = super+l=text:\x00l
+keybind = super+d=text:\x00d
+keybind = super+shift+d=text:\x00D
+keybind = super+w=text:\x00x
+keybind = super+ctrl+arrow_left=text:\x00H
+keybind = super+ctrl+arrow_down=text:\x00J
+keybind = super+ctrl+arrow_up=text:\x00K
+keybind = super+ctrl+arrow_right=text:\x00L
