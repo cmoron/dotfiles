@@ -92,6 +92,7 @@ alias g='git'
 alias vi='nvim'
 alias vim='nvim'
 alias z='zellij'
+alias t='tmux'
 
 #───────────────────────────────────────────────────────────────────────────
 # 5. KEYBINDINGS
@@ -138,3 +139,9 @@ unset _p
 # Sourcé en dernier pour pouvoir surcharger aliases, options et tools.
 # Pendant POSIX/env, voir ~/.profile.local (via .zprofile).
 [[ -f "${HOME}/.zshrc.local" ]] && source "${HOME}/.zshrc.local"
+
+# kimi-code
+export PATH="/Users/cyril/.kimi-code/bin:$PATH"
+
+# JDK 25
+export PATH="/opt/homebrew/opt/openjdk@25/bin:$PATH"

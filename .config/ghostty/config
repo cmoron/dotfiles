@@ -4,9 +4,15 @@
 # Doc complète : ghostty +show-config --default | less
 
 # ── Apparence ──
-font-family = Hack Nerd Font
+# Même rendu que Rio : Cascadia Code NF (la police que Rio embarque par défaut),
+# taille 14 (défaut Rio). Installée via `brew install --cask font-cascadia-code-nf`.
+font-family = Cascadia Code NF
 font-size = 14
-background = #333
+theme = Gruvbox Dark
+# Sélection alignée sur le thème Rio (~/.config/rio/themes/gruvbox-dark.toml) ;
+# le Gruvbox Dark intégré de Ghostty met #665c54.
+selection-background = #504945
+selection-foreground = #ebdbb2
 
 # Option agit comme Alt (Option+. → insert last arg, etc.)
 macos-option-as-alt = left
