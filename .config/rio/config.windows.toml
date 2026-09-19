@@ -1,0 +1,79 @@
+# See the full configuration reference: https://rioterm.com/docs/config
+# Windows : déployer dans %LOCALAPPDATA%\rio\config.toml.
+
+# Thème Gruvbox Dark — défini dans themes/gruvbox-dark.toml
+theme = "gruvbox-dark"
+
+# Lancer WSL (Ubuntu-24.04) dans le home Linux au lieu de PowerShell.
+shell = { program = "wsl.exe", args = ["-d", "Ubuntu-24.04", "--cd", "~"] }
+
+# Onglets numérotés façon Ghostty : Alt GAUCHE + rangée des chiffres.
+# Layout AZERTY : la rangée du haut produit & é " ' ( - è _ ç SANS Shift.
+# Rio matche le caractère LOGIQUE avec modificateurs EXACTS, donc on bind ces
+# caractères réels. `alt` = Alt gauche ; Rio traite AltGr séparément et garde
+# [ ] { } | \ ~ … de l'AZERTY.
+[bindings]
+keys = [
+  { key = "&", with = "alt", action = "SelectTab(0)" },  # Alt + touche 1
+  { key = "é", with = "alt", action = "SelectTab(1)" },  # Alt + touche 2
+  { key = '"', with = "alt", action = "SelectTab(2)" },  # Alt + touche 3
+  { key = "'", with = "alt", action = "SelectTab(3)" },  # Alt + touche 4
+  { key = "(", with = "alt", action = "SelectTab(4)" },  # Alt + touche 5
+  { key = "-", with = "alt", action = "SelectTab(5)" },  # Alt + touche 6
+  { key = "è", with = "alt", action = "SelectTab(6)" },  # Alt + touche 7
+  { key = "_", with = "alt", action = "SelectTab(7)" },  # Alt + touche 8
+  { key = "ç", with = "alt", action = "SelectLastTab" }, # Alt + touche 9 -> dernier
+
+  # Naviguer entre onglets (défauts Rio Ctrl+Tab / Ctrl+Shift+Tab conservés).
+  { key = "left",  with = "control | shift", action = "SelectPrevTab" },
+  { key = "right", with = "control | shift", action = "SelectNextTab" },
+  { key = "pageup",   with = "control", action = "SelectPrevTab" },
+  { key = "pagedown", with = "control", action = "SelectNextTab" },
+
+  # Déplacer l'onglet courant (convention GNOME : + Shift sur PageUp/Down).
+  { key = "pageup",   with = "control | shift", action = "MoveCurrentTabToPrev" },
+  { key = "pagedown", with = "control | shift", action = "MoveCurrentTabToNext" },
+
+  # Splits explicites, avec navigation directionnelle façon Vim
+  # (actions SelectSplit* ajoutées par le fork mnc : focus spatial, pas cyclique).
+  { key = "r", with = "control | shift", action = "SplitRight" },
+  { key = "d", with = "control | shift", action = "SplitDown" },
+  { key = "h", with = "control | shift", action = "SelectSplitLeft" },
+  { key = "j", with = "control | shift", action = "SelectSplitDown" },
+  { key = "k", with = "control | shift", action = "SelectSplitUp" },
+  { key = "l", with = "control | shift", action = "SelectSplitRight" },
+
+  # Panes tmux : Alt gauche ; Ctrl-Space (NUL) est le préfixe tmux.
+  # Modificateurs exacts : distincts des splits Rio en Ctrl+Shift ci-dessus.
+  { key = "h", with = "alt", esc = "\u0000h" },
+  { key = "j", with = "alt", esc = "\u0000j" },
+  { key = "k", with = "alt", esc = "\u0000k" },
+  { key = "l", with = "alt", esc = "\u0000l" },
+  { key = "d", with = "alt", esc = "\u0000d" },
+  { key = "d", with = "alt | shift", esc = "\u0000D" },
+  { key = "w", with = "alt", esc = "\u0000x" },
+  { key = "left", with = "control | alt", esc = "\u0000H" },
+  { key = "down", with = "control | alt", esc = "\u0000J" },
+  { key = "up", with = "control | alt", esc = "\u0000K" },
+  { key = "right", with = "control | alt", esc = "\u0000L" },
+
+  # Claude Code : Shift+Enter insère un saut de ligne sans envoyer le prompt.
+  { key = "return", with = "shift", esc = "\n" },
+]
+
+# Raccourcis Windows utiles conservés :
+#   Ctrl+Shift+T nouvel onglet · Ctrl+Shift+W fermer · Ctrl+Shift+R / D splits
+#   Ctrl+Shift+H/J/K/L focus split · Ctrl+Shift+Alt+flèches redimensionne le split
+
+# Numéro d'onglet 1-based devant le titre ("1 - vim").
+[navigation]
+display-tab-number = true
+tab-number-separator = " "
+
+[fonts]
+size = 16
+
+# Diagnostic gel TUI (2026-09-05) : log WARN dans %LOCALAPPDATA%\rio\log\rio.log
+[developer]
+enable-log-file = true
+log-level = "WARN"
