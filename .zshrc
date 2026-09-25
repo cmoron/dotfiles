@@ -96,6 +96,8 @@ alias vi='nvim'
 alias vim='nvim'
 alias z='zellij'
 alias t='tmux'
+# Conteneur de dev sur le NAS : rattache (ou cree) la session tmux "dev".
+alias dev='ssh -t -J nas cyril@10.42.110.10 tmux new -A -s dev'
 
 #───────────────────────────────────────────────────────────────────────────
 # 5. KEYBINDINGS
