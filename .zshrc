@@ -18,9 +18,9 @@ setopt PROMPT_SUBST             # substitution dans PS1 (utile pour starship & h
 setopt NO_BEEP                  # pas de bip à la moindre erreur
 setopt NOTIFY                   # status des jobs background dès qu'ils finissent
 
-# WORDCHARS : retire `/` pour que Ctrl-W s'arrête aux séparateurs de chemin
-# (ex: `xxx/yyy` → supprime juste `yyy` puis `/`). Default zsh inclut `/`.
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+# WORDCHARS vide : seuls les alphanumériques forment un mot, donc Alt-Backspace
+# et Ctrl-W s'arrêtent à chaque séparateur (`/`, `-`, `.`, `_`, …).
+WORDCHARS=''
 
 # ── History ──
 HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
