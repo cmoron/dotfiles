@@ -53,12 +53,12 @@ Sous Windows, utiliser **Alt gauche**, pas AltGr.
 | Action                               | Rio Windows        | tmux dans tout terminal                   |
 | ------------------------------------ | ------------------ | ----------------------------------------- |
 | Focus gauche / bas / haut / droite   | `Alt+h/j/k/l`      | Préfixe puis `h/j/k/l`                    |
-| Diviser à droite                     | `Alt+d`            | Préfixe puis `d`                          |
-| Diviser en bas                       | `Alt+Shift+d`      | Préfixe puis `D`                          |
+| Diviser à droite                     | `Alt+d`            | Préfixe puis `%`                          |
+| Diviser en bas                       | `Alt+Shift+d`      | Préfixe puis `"`                          |
 | Fermer le pane et son processus      | `Alt+w`            | Préfixe puis `x`                          |
 | Déplacer la séparation de 5 cellules | `Ctrl+Alt+flèches` | Préfixe puis `H/J/K/L`                    |
 | Recharger la configuration tmux      | —                  | Préfixe puis `r`                          |
-| Détacher la session                  | —                  | Préfixe puis `:detach-client` et `Entrée` |
+| Détacher la session                  | —                  | Préfixe puis `d`                          |
 
 Les onglets Rio restent accessibles avec `Alt` + touches AZERTY `& é " ' ( - è _ ç`
 (1 à 8, puis dernier onglet), `Ctrl+Tab` / `Ctrl+Shift+Tab`, ou `Ctrl+PageUp/PageDown`.
