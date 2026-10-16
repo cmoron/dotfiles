@@ -52,7 +52,8 @@ Sous Windows, utiliser **Alt gauche**, pas AltGr.
 
 | Action                               | Rio Windows        | tmux dans tout terminal                   |
 | ------------------------------------ | ------------------ | ----------------------------------------- |
-| Focus gauche / bas / haut / droite   | `Alt+h/j/k/l`      | Préfixe puis `h/j/k/l`                    |
+| Focus gauche / bas / haut / droite   | `Alt+h/j/k/l`      | `Alt+h/j/k/l` (sans préfixe)              |
+| Choisir une session                  | —                  | Préfixe puis `l` (ou `s`)                 |
 | Diviser à droite                     | `Alt+d`            | Préfixe puis `%`                          |
 | Diviser en bas                       | `Alt+Shift+d`      | Préfixe puis `"`                          |
 | Fermer le pane et son processus      | `Alt+w`            | Préfixe puis `x`                          |

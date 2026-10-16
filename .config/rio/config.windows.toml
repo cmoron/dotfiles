@@ -45,10 +45,10 @@ keys = [
 
   # Panes tmux : Alt gauche ; Ctrl-Space (NUL) est le préfixe tmux.
   # Modificateurs exacts : distincts des splits Rio en Ctrl+Shift ci-dessus.
-  { key = "h", with = "alt", esc = "\u0000h" },
-  { key = "j", with = "alt", esc = "\u0000j" },
-  { key = "k", with = "alt", esc = "\u0000k" },
-  { key = "l", with = "alt", esc = "\u0000l" },
+  { key = "h", with = "alt", esc = "\u001bh" },
+  { key = "j", with = "alt", esc = "\u001bj" },
+  { key = "k", with = "alt", esc = "\u001bk" },
+  { key = "l", with = "alt", esc = "\u001bl" },
   { key = "d", with = "alt", esc = "\u0000%" },
   { key = "d", with = "alt | shift", esc = "\u0000\"" },
   { key = "w", with = "alt", esc = "\u0000x" },

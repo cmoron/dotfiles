@@ -27,10 +27,24 @@ binding() {
     '
 }
 
-test "$(binding h)" = 'select-pane -L'
-test "$(binding j)" = 'select-pane -D'
-test "$(binding k)" = 'select-pane -U'
-test "$(binding l)" = 'select-pane -R'
+root_binding() {
+    tmux -L "$socket" list-keys -T root | awk -v key="$1" '
+        $1 == "bind-key" && $2 == "-T" && $3 == "root" && $4 == key {
+            $1 = $2 = $3 = $4 = ""
+            sub(/^ +/, "")
+            print
+        }
+    '
+}
+
+test "$(root_binding M-h)" = 'select-pane -L'
+test "$(root_binding M-j)" = 'select-pane -D'
+test "$(root_binding M-k)" = 'select-pane -U'
+test "$(root_binding M-l)" = 'select-pane -R'
+test -z "$(binding h)"
+test -z "$(binding j)"
+test -z "$(binding k)"
+test "$(binding l)" = 'choose-tree -Zs'
 test "$(binding '\\%')" = 'split-window -h -c "#{pane_current_path}"'
 test "$(binding '\\"')" = 'split-window -v -c "#{pane_current_path}"'
 test "$(binding d)" = 'detach-client'

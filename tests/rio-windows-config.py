@@ -17,9 +17,11 @@ for binding in bindings:
     if binding.get("esc", "").startswith("\0"):
         assert "alt" in modifiers, binding
         tmux_keys.add(binding["esc"][1:])
+    if binding["key"] in "hjkl" and modifiers == {"alt"}:
+        assert binding["esc"] == "\x1b" + binding["key"], "Alt+hjkl = tmux M-hjkl"
     if binding["key"] in "&é\"'(-è_ç":
         assert modifiers == {"alt"}, "Keep AltGr available for AZERTY symbols"
 
-assert tmux_keys == set('hjkl%"xHJKL')
+assert tmux_keys == set('%"xHJKL')
 assert config["shell"]["program"] == "wsl.exe"
 print("Rio Windows: unique shortcuts, Alt/AltGr separation and tmux commands OK")
