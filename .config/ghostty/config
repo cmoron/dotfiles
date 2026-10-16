@@ -40,12 +40,13 @@ window-padding-y = 8
 
 # --- Panes tmux ---
 # Ctrl-Space est le préfixe tmux (NUL, \x00) ; Ghostty ne gère plus les splits.
-keybind = super+h=text:\x00h
-keybind = super+j=text:\x00j
-keybind = super+k=text:\x00k
-keybind = super+l=text:\x00l
-keybind = super+d=text:\x00d
-keybind = super+shift+d=text:\x00D
+# Cmd+h/j/k/l -> Alt+h/j/k/l (ESC), lié sans préfixe dans tmux.
+keybind = super+h=esc:h
+keybind = super+j=esc:j
+keybind = super+k=esc:k
+keybind = super+l=esc:l
+keybind = super+d=text:\x00%
+keybind = super+shift+d=text:\x00"
 keybind = super+w=text:\x00x
 keybind = super+ctrl+arrow_left=text:\x00H
 keybind = super+ctrl+arrow_down=text:\x00J

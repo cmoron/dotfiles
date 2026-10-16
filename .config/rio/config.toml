@@ -40,12 +40,13 @@ keys = [
 
   # --- Panes tmux ---
   # Ctrl-Space est le préfixe tmux (NUL, \u0000) ; Rio ne gère plus les splits.
-  { key = "h", with = "super", esc = "\u0000h" },
-  { key = "j", with = "super", esc = "\u0000j" },
-  { key = "k", with = "super", esc = "\u0000k" },
-  { key = "l", with = "super", esc = "\u0000l" },
-  { key = "d", with = "super", esc = "\u0000d" },
-  { key = "d", with = "super | shift", esc = "\u0000D" },
+  # Cmd+h/j/k/l -> Alt+h/j/k/l (ESC), lié sans préfixe dans tmux ; Cmd+d -> % / ".
+  { key = "h", with = "super", esc = "\u001bh" },
+  { key = "j", with = "super", esc = "\u001bj" },
+  { key = "k", with = "super", esc = "\u001bk" },
+  { key = "l", with = "super", esc = "\u001bl" },
+  { key = "d", with = "super", esc = "\u0000%" },
+  { key = "d", with = "super | shift", esc = "\u0000\"" },
   { key = "w", with = "super", esc = "\u0000x" },
   { key = "left", with = "control | super", esc = "\u0000H" },
   { key = "down", with = "control | super", esc = "\u0000J" },
