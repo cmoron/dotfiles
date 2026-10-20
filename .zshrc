@@ -157,3 +157,7 @@ export NVM_DIR="$HOME/.config/nvm"
 
 # kimi-code
 export PATH="$HOME/.kimi-code/bin:$PATH"
+
+# Claude Code n'émet des liens OSC 8 (URL complète sur chaque ligne d'un
+# lien replié) que s'il reconnaît le terminal ; Rio et WSL ne le sont pas.
+export FORCE_HYPERLINK=1
