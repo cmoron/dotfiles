@@ -3,6 +3,14 @@
 Configuration Linux/WSL de Cyril. La branche `MACOS` conserve les réglages Mac ;
 les changements portables sont reportés individuellement.
 
+L'ancienne configuration Arch Linux/X11 est conservée dans le tag Git
+`archive/archlinux` (i3, services graphiques, scripts de barre et liste de paquets).
+Pour consulter un ancien fichier :
+
+```sh
+git show archive/archlinux:.config/i3/config
+```
+
 ## Rio Windows + tmux dans WSL
 
 | Source versionnée                                                    | Destination                                              |
