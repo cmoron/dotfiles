@@ -50,16 +50,41 @@ des commandes tmux : les utiliser dans une session tmux active.
 `Préfixe` signifie appuyer sur `Ctrl+Espace`, relâcher, puis taper la touche.
 Sous Windows, utiliser **Alt gauche**, pas AltGr.
 
-| Action                               | Rio Windows        | tmux dans tout terminal                   |
-| ------------------------------------ | ------------------ | ----------------------------------------- |
-| Focus gauche / bas / haut / droite   | `Alt+h/j/k/l`      | `Alt+h/j/k/l` (sans préfixe)              |
-| Choisir une session                  | —                  | Préfixe puis `l` (ou `s`)                 |
-| Diviser à droite                     | `Alt+d`            | Préfixe puis `%`                          |
-| Diviser en bas                       | `Alt+Shift+d`      | Préfixe puis `"`                          |
-| Fermer le pane et son processus      | `Alt+w`            | Préfixe puis `x`                          |
-| Déplacer la séparation de 5 cellules | `Ctrl+Alt+flèches` | Préfixe puis `H/J/K/L`                    |
-| Recharger la configuration tmux      | —                  | Préfixe puis `r`                          |
-| Détacher la session                  | —                  | Préfixe puis `d`                          |
+| Action                               | Rio Windows        | tmux dans tout terminal     |
+| ------------------------------------ | ------------------ | --------------------------- |
+| Focus gauche / bas / haut / droite   | `Alt+h/j/k/l`      | Préfixe puis `h/j/k/l`      |
+| Diviser à droite                     | `Alt+d`            | Préfixe puis `%`            |
+| Diviser en bas                       | `Alt+Shift+d`      | Préfixe puis `"`            |
+| Fermer le pane et son processus      | `Alt+w`            | Préfixe puis `x`            |
+| Déplacer la séparation de 5 cellules | `Ctrl+Alt+flèches` | Préfixe puis `H/J/K/L`      |
+| Recharger la configuration tmux      | —                  | Préfixe puis `r`            |
+| Entrer en mode copie (Vim)           | `Alt+i`            | `Alt+i` ou Préfixe puis `[` |
+| Détacher la session                  | —                  | Préfixe puis `d`            |
+
+Dans le mode copie : `h/j/k/l` pour se déplacer, `v` pour commencer une
+sélection, `V` pour sélectionner des lignes, puis `y` pour copier et revenir au
+shell. `q` quitte sans copier. `J` défile de 2 lignes vers le bas et `K` de
+3 vers le haut, comme dans la configuration Neovim, même pendant une sélection.
+`Ctrl+u/d` défile d'une demi-page, `g` / `G` rejoint le début / la fin de l'historique.
+
+La copie utilise OSC 52 via Rio pour atteindre le presse-papier Windows :
+coller avec `Ctrl+Shift+V` dans Rio ou `Ctrl+V` dans une autre application.
+Aucun outil de presse-papier supplémentaire n'est nécessaire. Ce mécanisme
+demande un terminal compatible OSC 52 ; Rio le prend en charge.
+
+tmux utilise son propre historique : l'ascenseur Rio ne représente plus celui
+du pane. La molette entre dans cet historique et défile de 10 lignes par cran
+(au lieu de 5). Les applications qui capturent la souris, comme Vim, conservent
+leur propre gestion du défilement.
+
+Après une modification, recharger tmux avec Préfixe puis `r` (ou
+`tmux source-file ~/.tmux.conf`). Pour le raccourci Rio, recopier aussi la
+configuration Windows comme indiqué ci-dessus et ouvrir une nouvelle fenêtre.
+
+En SSH, installer et recharger aussi `.tmux.conf` sur la machine distante : Rio
+envoie les mêmes touches, mais c'est le tmux distant qui les interprète. Une
+ancienne configuration peut encore associer Préfixe puis `l` à la liste des
+sessions au lieu du focus à droite. La liste reste accessible avec Préfixe puis `s`.
 
 Les onglets Rio restent accessibles avec `Alt` + touches AZERTY `& é " ' ( - è _ ç`
 (1 à 8, puis dernier onglet), `Ctrl+Tab` / `Ctrl+Shift+Tab`, ou `Ctrl+PageUp/PageDown`.

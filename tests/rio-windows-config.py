@@ -22,6 +22,7 @@ for binding in bindings:
     if binding["key"] in "&é\"'(-è_ç":
         assert modifiers == {"alt"}, "Keep AltGr available for AZERTY symbols"
 
-assert tmux_keys == set('%"xHJKL')
+assert tmux_keys == set('%"xHJKL[')
+assert {"key": "i", "with": "alt", "esc": "\0["} in bindings
 assert config["shell"]["program"] == "wsl.exe"
 print("Rio Windows: unique shortcuts, Alt/AltGr separation and tmux commands OK")

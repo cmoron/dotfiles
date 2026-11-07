@@ -18,8 +18,8 @@ test "$(tmux -L "$socket" show-options -gv set-titles)" = on
 test "$(tmux -L "$socket" show-options -gv set-titles-string)" = '#{pane_title}'
 
 binding() {
-    tmux -L "$socket" list-keys -T prefix | awk -v key="$1" '
-        $1 == "bind-key" && $2 == "-T" && $3 == "prefix" && $4 == key {
+    tmux -L "$socket" list-keys -T "${2:-prefix}" | awk -v key="$1" '
+        $1 == "bind-key" && $2 == "-T" && $4 == key {
             $1 = $2 = $3 = $4 = ""
             sub(/^ +/, "")
             print
@@ -27,24 +27,25 @@ binding() {
     '
 }
 
-root_binding() {
-    tmux -L "$socket" list-keys -T root | awk -v key="$1" '
-        $1 == "bind-key" && $2 == "-T" && $3 == "root" && $4 == key {
-            $1 = $2 = $3 = $4 = ""
-            sub(/^ +/, "")
-            print
-        }
-    '
-}
+test "$(tmux -L "$socket" show-options -gwv mode-keys)" = vi
+test "$(tmux -L "$socket" show-options -sv set-clipboard)" = external
+test "$(binding M-i root)" = 'copy-mode'
+test "$(binding v copy-mode-vi)" = 'send-keys -X begin-selection'
+test "$(binding y copy-mode-vi)" = 'send-keys -X copy-selection-and-cancel'
+test "$(binding J copy-mode-vi)" = 'send-keys -X -N 2 scroll-down'
+test "$(binding K copy-mode-vi)" = 'send-keys -X -N 3 scroll-up'
+test "$(binding WheelUpPane copy-mode-vi)" = 'select-pane \; send-keys -X -N 10 scroll-up'
+test "$(binding WheelDownPane copy-mode-vi)" = 'select-pane \; send-keys -X -N 10 scroll-down'
+test "$(binding WheelUpPane root)" = 'if-shell -F "#{||:#{pane_in_mode},#{mouse_any_flag}}" { send-keys -M } { copy-mode -e -t = ;; send-keys -X -N 10 -t = scroll-up }'
 
-test "$(root_binding M-h)" = 'select-pane -L'
-test "$(root_binding M-j)" = 'select-pane -D'
-test "$(root_binding M-k)" = 'select-pane -U'
-test "$(root_binding M-l)" = 'select-pane -R'
-test -z "$(binding h)"
-test -z "$(binding j)"
-test -z "$(binding k)"
-test "$(binding l)" = 'choose-tree -Zs'
+test "$(binding M-h root)" = 'select-pane -L'
+test "$(binding M-j root)" = 'select-pane -D'
+test "$(binding M-k root)" = 'select-pane -U'
+test "$(binding M-l root)" = 'select-pane -R'
+test "$(binding h)" = 'select-pane -L'
+test "$(binding j)" = 'select-pane -D'
+test "$(binding k)" = 'select-pane -U'
+test "$(binding l)" = 'select-pane -R'
 test "$(binding '\\%')" = 'split-window -h -c "#{pane_current_path}"'
 test "$(binding '\\"')" = 'split-window -v -c "#{pane_current_path}"'
 test "$(binding d)" = 'detach-client'
