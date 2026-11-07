@@ -1,7 +1,104 @@
-# Dotfiles — branche `master`
+# Dotfiles — branche commune `master`
 
-Configuration Linux/WSL de Cyril. La branche `MACOS` conserve les réglages Mac ;
-les changements portables sont reportés individuellement.
+Même branche pour Linux/WSL, macOS et les VPS : `git pull --ff-only` suffit à
+récupérer les réglages communs. Zsh est le shell principal ; Bash reste un secours
+léger avec historique, prompt simple et alias essentiels. Atuin et fzf sont
+intégrés à Zsh. Les fichiers Rio distinguent le shell Windows/WSL du shell macOS.
+
+## Prérequis et installation
+
+L'installation des logiciels relève du système ou d'Ansible. Le script de ce dépôt
+crée uniquement des liens symboliques, sans réseau, installation de paquets ou
+changement du shell de connexion. Il sauvegarde les fichiers et les liens remplacés
+avec des suffixes `.bak`, `.bak.1`, etc.
+
+| Logiciel | Utilité |
+| --- | --- |
+| Git, Bash, Zsh | Récupérer le dépôt, déployer les fichiers, ouvrir le shell principal |
+| tmux ≥ 3.4 | Panes, sessions, mode copie et historique |
+| Neovim | Éditeur des alias `vi`/`vim` ; sa configuration est dans un dépôt distinct |
+| Starship | Prompt Zsh |
+| Atuin | Historique et recherche `Ctrl+R`, sans compte requis en mode local |
+| fzf | Sélection de fichiers `Ctrl+T` et de répertoires `Alt+C` |
+| eza récent avec `theme.yml` | Alias `ls` et couleurs ; repli sur `ls` natif si absent |
+| git-delta | Pager et diff interactif de la configuration Git optionnelle |
+| git-lfs | Seulement pour les dépôts utilisant Git LFS |
+| Rio | Terminal du poste Windows ou Mac ; inutile sur un VPS joint en SSH |
+| Une police Nerd Font sur le poste graphique | Glyphes et icônes ; aucun fichier de police n'est distribué ici |
+
+Sur macOS, les outils CLI peuvent être installés avec Homebrew :
+
+```sh
+brew install git tmux neovim starship atuin fzf eza git-delta git-lfs
+brew install --cask font-cascadia-code-nf
+```
+
+La police doit être installée sur la machine qui affiche le terminal, donc sous
+Windows pour Rio Windows, et non uniquement dans WSL. Ghostty utilise Cascadia
+Code NF ; Kitty utilise Hack si tu conserves ce terminal.
+
+Sur Debian/Ubuntu, installer la base avec `sudo apt install git bash zsh tmux
+neovim fzf`, puis Starship, Atuin, eza et delta depuis leurs distributions
+respectives si les paquets système ne les fournissent pas. Homebrew Intel et Apple
+Silicon sont ajoutés au PATH s'ils sont présents ; GNU coreutils reste facultatif.
+
+Pour les deux plugins Zsh, cloner une fois, s'ils sont absents :
+
+```sh
+plugins="$HOME/.local/share/zsh/plugins"
+mkdir -p "$plugins"
+git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting "$plugins/zsh-syntax-highlighting"
+git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$plugins/zsh-autosuggestions"
+```
+
+Déployer ensuite depuis le checkout :
+
+```sh
+DOTFILES="$PWD" bash .local/bin/install-zsh-setup
+```
+
+Le script lie les fichiers de démarrage Zsh/Bash, `.tmux.conf` et les configurations
+Starship/Atuin/eza. Sur macOS, il lie aussi Rio et son thème ; le déploiement Rio
+Windows est décrit plus bas. La configuration Ghostty reste disponible dans
+`.config/ghostty/config` ; sur Mac, ses liens se placent dans
+`~/Library/Application Support/com.mitchellh.ghostty/` (`config` et `config.ghostty`).
+
+Pour choisir Zsh comme shell de connexion, vérifier que son chemin figure dans
+`/etc/shells`, puis lancer `chsh -s "$(command -v zsh)"` et rouvrir la session.
+Rio Mac et Kitty lancent déjà explicitement Zsh. Sur un VPS, le shell de connexion
+reste à choisir avec `chsh`. Les réglages propres à une machine vont dans
+`~/.profile.local`, `~/.zshrc.local` ou `~/.bashrc.local`.
+
+NVM est facultatif et reste installé séparément dans `~/.config/nvm`. Il charge ses
+fonctions avec `--no-use` : choisir explicitement la version avec `nvm use` ou
+`nvm use default`. Un nouveau shell sans PATH Node hérité n'active plus de version
+Node automatiquement. Bun, uv et Cargo restent des outils de développement
+facultatifs ; leurs répertoires usuels sont ajoutés au PATH lorsqu'ils sont installés.
+
+Pour reprendre un historique existant dans Atuin : `atuin import auto`. La
+synchronisation cloud reste désactivée par cette configuration.
+
+### Git et passage depuis la branche Mac
+
+La branche `MACOS` est historique ; son état de référence est conservé par le tag
+`archive/macos`. Les évolutions passent désormais par `master`, sans cherry-pick
+par système. Avant de changer de branche, vérifier `git status` et sauvegarder les
+modifications locales, par exemple avec `git stash push`. Après restauration du
+stash, résoudre ses éventuels conflits avant de déployer.
+
+```sh
+git fetch origin
+git switch master
+git pull --ff-only
+DOTFILES="$PWD" bash .local/bin/install-zsh-setup
+```
+
+La configuration Git du dépôt reste optionnelle : elle n'est pas déployée par le
+script. Si tu l'utilises déjà par lien, elle charge `~/.gitconfig.local` en dernier.
+Avant de migrer le Mac, reporter sa signature SSH dans ce fichier, avec notamment
+`gpg.format=ssh`, `commit.gpgsign=true`, le chemin local `gpg.ssh.allowedSignersFile`
+et ta `user.signingKey` si elle est nécessaire. Ces chemins et clés restent propres
+à chaque machine. La signature du Mac n'est pas imposée aux VPS ou à WSL.
 
 L'ancienne configuration Arch Linux/X11 est conservée dans le tag Git
 `archive/archlinux` (i3, services graphiques, scripts de barre et liste de paquets).
@@ -20,7 +117,7 @@ git show archive/archlinux:.config/i3/config
 | [Thème Gruvbox](.config/rio/themes/gruvbox-dark.toml)                | `%LOCALAPPDATA%\rio\themes\gruvbox-dark.toml`            |
 
 Le fichier Rio Windows est distinct de `.config/rio/config.toml`, qui contient
-encore un shell Homebrew et des raccourcis `Super` destinés au Mac.
+le shell Zsh et les raccourcis `Super` destinés au Mac.
 Modifier la source versionnée, puis recopier le fichier Windows pour le déployer.
 
 ### Installation et lancement
@@ -124,12 +221,16 @@ Rio, écrire `control`, pas `ctrl` : le parseur de cette version ignore `ctrl`.
 Depuis la racine du dépôt :
 
 ```sh
+sh tests/install-config.sh
+sh tests/shell-config.sh
 sh tests/tmux-config.sh
 uv run --no-project tests/rio-windows-config.py
 ```
 
-Le premier test charge la configuration dans un serveur tmux isolé. Le second
-vérifie le TOML, les doublons de raccourcis, les commandes tmux et les modificateurs.
+Les tests shell déploient les liens dans un HOME temporaire, vérifient les
+sauvegardes et le démarrage des shells. Le test tmux utilise un serveur isolé.
+Le test Python (Python ≥ 3.12, lancé avec uv) vérifie le TOML, les raccourcis des
+deux OS, les commandes tmux et les modificateurs.
 Il ne remplace pas un test clavier dans Rio.
 
 Validation du 19 septembre 2026 : tests passés ; `Alt+d` testé avec succès dans

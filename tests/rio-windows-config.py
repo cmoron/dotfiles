@@ -27,4 +27,14 @@ assert {"key": "i", "with": "alt", "esc": "\0["} in bindings
 assert config["shell"]["program"] == "wsl.exe"
 mac_config = tomllib.loads((repo / ".config/rio/config.toml").read_text())
 assert {"key": "i", "with": "alt", "esc": "\0["} in mac_config["bindings"]["keys"]
-print("Rio Windows: unique shortcuts, Alt/AltGr separation and tmux commands OK")
+assert mac_config["shell"] == {"program": "/bin/zsh", "args": ["--login"]}
+assert mac_config["option-as-alt"] == "left"
+mac_triggers = set()
+for binding in mac_config["bindings"]["keys"]:
+    modifiers = frozenset(binding["with"].replace(" ", "").split("|"))
+    trigger = (binding["key"], modifiers, binding.get("mode", ""))
+    assert trigger not in mac_triggers, f"Duplicate macOS shortcut: {trigger}"
+    mac_triggers.add(trigger)
+    if binding["key"] in "hjkl" and modifiers == {"super"}:
+        assert binding["esc"] == "\x1b" + binding["key"]
+print("Rio Windows/macOS: unique shortcuts, tmux commands and Zsh on Mac OK")

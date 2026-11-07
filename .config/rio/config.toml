@@ -3,10 +3,14 @@
 # Thème Gruvbox Dark — défini dans ~/.config/rio/themes/gruvbox-dark.toml
 theme = "gruvbox-dark"
 
-# Forcer bash dans Rio (macOS détecte mal le shell au lancement GUI).
-# Reste scoped à Rio : ne touche pas au shell de login global.
+# Option GAUCHE = Meta/Alt : Option+f / Option+b déplacent le curseur mot à mot
+# (readline/emacs) au lieu d'insérer ƒ ß. Comme `macos-option-as-alt` de Ghostty.
+# Clé RACINE (hors [section]) — sinon silencieusement ignorée.
+# 'left' seulement : l'Option DROITE garde l'AltGr AZERTY ([ ] { } | \ ~ …).
+option-as-alt = "left"
+
 [shell]
-program = "/opt/homebrew/bin/bash"
+program = "/bin/zsh"
 args = ["--login"]
 
 # Raccourcis type Ghostty : Command + rangée des chiffres -> bascule d'onglet.
@@ -15,7 +19,6 @@ args = ["--login"]
 # caractères réels (et non "1".."9", qui exigeraient Shift sur AZERTY).
 [bindings]
 keys = [
-  # Option+i : même mode copie tmux que sur Windows, sans dépendre du layout.
   { key = "i", with = "alt", esc = "\u0000[" },
   { key = "&", with = "super", action = "SelectTab(0)" },  # Cmd + touche 1
   { key = "é", with = "super", action = "SelectTab(1)" },  # Cmd + touche 2
@@ -26,4 +29,38 @@ keys = [
   { key = "è", with = "super", action = "SelectTab(6)" },  # Cmd + touche 7
   { key = "_", with = "super", action = "SelectTab(7)" },  # Cmd + touche 8
   { key = "ç", with = "super", action = "SelectLastTab" }, # Cmd + touche 9 -> dernier
+
+  # Cmd + flèches -> onglet précédent/suivant ; + Shift -> déplace l'onglet.
+  # Rio bind Cmd+flèches à Action::None par défaut, donc on les libère ici.
+  { key = "left", with = "super", action = "SelectPrevTab" },
+  { key = "right", with = "super", action = "SelectNextTab" },
+  { key = "left", with = "super | shift", action = "MoveCurrentTabToPrev" },
+  { key = "right", with = "super | shift", action = "MoveCurrentTabToNext" },
+
+  # --- Panes tmux ---
+  # Ctrl-Space est le préfixe tmux (NUL, \u0000) ; Rio ne gère plus les splits.
+  # Cmd+h/j/k/l -> Alt+h/j/k/l (ESC), lié sans préfixe dans tmux ; Cmd+d -> % / ".
+  { key = "h", with = "super", esc = "\u001bh" },
+  { key = "j", with = "super", esc = "\u001bj" },
+  { key = "k", with = "super", esc = "\u001bk" },
+  { key = "l", with = "super", esc = "\u001bl" },
+  { key = "d", with = "super", esc = "\u0000%" },
+  { key = "d", with = "super | shift", esc = "\u0000\"" },
+  { key = "w", with = "super", esc = "\u0000x" },
+  { key = "left", with = "control | super", esc = "\u0000H" },
+  { key = "down", with = "control | super", esc = "\u0000J" },
+  { key = "up", with = "control | super", esc = "\u0000K" },
+  { key = "right", with = "control | super", esc = "\u0000L" },
+
+  # Claude Code : insérer un saut de ligne sans envoyer le prompt.
+  # Rio ne gère pas Shift+Enter nativement -> on bind ces touches sur "\n"
+  # (line feed = Ctrl+J), le saut de ligne universel de Claude Code.
+  { key = "return", with = "shift", esc = "\n" },
+  { key = "return", with = "option", esc = "\n" },
 ]
+
+# Affiche l'index 1-based devant le titre de chaque onglet ("1 - vim").
+# Le numéro suit la position visuelle : déplacer un onglet le renumérote.
+[navigation]
+display-tab-number = true
+tab-number-separator = " "

@@ -42,3 +42,5 @@
 	navigate = true
 	line-numbers = true
 	pager = less -FRX
+[include]
+	path = ~/.gitconfig.local

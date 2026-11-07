@@ -21,6 +21,17 @@ export LESSHISTFILE=-
 export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
 
+# Homebrew on Intel and Apple Silicon; GNU tools keep the same CLI on macOS.
+for _brew in /usr/local /opt/homebrew; do
+    if [ -x "$_brew/bin/brew" ]; then
+        export PATH="$_brew/bin:$_brew/sbin:$PATH"
+        if [ -d "$_brew/opt/coreutils/libexec/gnubin" ]; then
+            export PATH="$_brew/opt/coreutils/libexec/gnubin:$PATH"
+        fi
+    fi
+done
+unset _brew
+
 # uv
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 

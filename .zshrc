@@ -63,7 +63,7 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
 
 # fzf : keybindings natifs (Ctrl-T fichier, Alt-C cd), flags par défaut
-for _fzf in /usr/share/fzf /usr/share/doc/fzf/examples; do
+for _fzf in /usr/share/fzf /usr/share/doc/fzf/examples /opt/homebrew/opt/fzf/shell /usr/local/opt/fzf/shell; do
     if [[ -f "$_fzf/key-bindings.zsh" ]]; then
         source "$_fzf/key-bindings.zsh"
         [[ -f "$_fzf/completion.zsh" ]] && source "$_fzf/completion.zsh"
@@ -85,7 +85,11 @@ if command -v eza >/dev/null; then
     alias l='eza --color=auto --icons=auto --group-directories-first'
     alias lla='eza -lag --color=auto --icons=auto --group-directories-first --git'
 else
-    alias ls='ls --color=auto'
+    if [[ "$OSTYPE" == darwin* ]]; then
+        alias ls='ls -G'
+    else
+        alias ls='ls --color=auto'
+    fi
     alias ll='ls -lh'
     alias la='ls -A'
     alias l='ls -CF'
@@ -143,16 +147,9 @@ _p="$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
 [[ -f "$_p" ]] && source "$_p"
 unset _p
 
-#───────────────────────────────────────────────────────────────────────────
-# 8. LOCAL OVERRIDES (config machine-specific, non versionnée)
-#───────────────────────────────────────────────────────────────────────────
-
-# Sourcé en dernier pour pouvoir surcharger aliases, options et tools.
-# Pendant POSIX/env, voir ~/.profile.local (via .zprofile).
-[[ -f "${HOME}/.zshrc.local" ]] && source "${HOME}/.zshrc.local"
-
 export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# Select a Node version explicitly with `nvm use` when needed.
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # kimi-code
@@ -161,3 +158,12 @@ export PATH="$HOME/.kimi-code/bin:$PATH"
 # Claude Code n'émet des liens OSC 8 (URL complète sur chaque ligne d'un
 # lien replié) que s'il reconnaît le terminal ; Rio et WSL ne le sont pas.
 export FORCE_HYPERLINK=1
+
+#───────────────────────────────────────────────────────────────────────────
+# 8. LOCAL OVERRIDES (config machine-specific, non versionnée)
+#───────────────────────────────────────────────────────────────────────────
+
+# Loaded last so machine-specific settings can override the shared defaults.
+if [[ -f "$HOME/.zshrc.local" ]]; then
+    source "$HOME/.zshrc.local"
+fi

@@ -1,0 +1,54 @@
+# Ghostty — single source of truth.
+# Symlinkée depuis ~/Library/Application Support/com.mitchellh.ghostty/
+# (config + config.ghostty), qui est le chemin réellement lu par Ghostty sur macOS.
+# Doc complète : ghostty +show-config --default | less
+
+# ── Apparence ──
+# Même rendu que Rio : Cascadia Code NF (la police que Rio embarque par défaut),
+# taille 14 (défaut Rio). Installée via `brew install --cask font-cascadia-code-nf`.
+font-family = Cascadia Code NF
+font-size = 14
+theme = Gruvbox Dark
+# Sélection alignée sur le thème Rio (~/.config/rio/themes/gruvbox-dark.toml) ;
+# le Gruvbox Dark intégré de Ghostty met #665c54.
+selection-background = #504945
+selection-foreground = #ebdbb2
+
+# Option agit comme Alt (Option+. → insert last arg, etc.)
+macos-option-as-alt = left
+
+# ── Shell ──
+# Force zsh login shell. Sans ça, Ghostty hérite du $SHELL de la session
+# GUI macOS, qui peut être obsolète tant que la session n'a pas été
+# rejouée après chsh.
+command = /bin/zsh --login
+
+# ── Shell integration ──
+# On retire `cursor` des features pour empêcher le shell de forcer une barre.
+# Le block est par ailleurs forcé côté zsh (precmd hook DECSCUSR \e[2 q).
+shell-integration = detect
+shell-integration-features = no-cursor,no-sudo,title
+
+# ── Curseur ──
+cursor-style = block
+
+# ── Confort ──
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+window-padding-x = 8
+window-padding-y = 8
+
+# --- Panes tmux ---
+# Ctrl-Space est le préfixe tmux (NUL, \x00) ; Ghostty ne gère plus les splits.
+# Cmd+h/j/k/l -> Alt+h/j/k/l (ESC), lié sans préfixe dans tmux.
+keybind = super+h=esc:h
+keybind = super+j=esc:j
+keybind = super+k=esc:k
+keybind = super+l=esc:l
+keybind = super+d=text:\x00%
+keybind = super+shift+d=text:\x00"
+keybind = super+w=text:\x00x
+keybind = super+ctrl+arrow_left=text:\x00H
+keybind = super+ctrl+arrow_down=text:\x00J
+keybind = super+ctrl+arrow_up=text:\x00K
+keybind = super+ctrl+arrow_right=text:\x00L
