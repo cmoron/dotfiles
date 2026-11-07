@@ -84,6 +84,7 @@ if command -v eza >/dev/null; then
     alias la='eza -a --color=auto --icons=auto --group-directories-first'
     alias l='eza --color=auto --icons=auto --group-directories-first'
     alias lla='eza -lag --color=auto --icons=auto --group-directories-first --git'
+    alias 'llt'='eza -lgs date'
 else
     if [[ "$OSTYPE" == darwin* ]]; then
         alias ls='ls -G'
