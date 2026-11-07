@@ -13,6 +13,7 @@ trap cleanup EXIT INT TERM
 tmux -L "$socket" -f "$repo/.tmux.conf" new-session -d -s "$session" -x 120 -y 40
 
 test "$(tmux -L "$socket" show-options -gv prefix)" = C-Space
+test "$(tmux -L "$socket" show-options -sv escape-time)" = 10
 test "$(tmux -L "$socket" show-options -gv mouse)" = on
 test "$(tmux -L "$socket" show-options -gv set-titles)" = on
 test "$(tmux -L "$socket" show-options -gv set-titles-string)" = '#{pane_title}'
