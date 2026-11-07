@@ -25,4 +25,6 @@ for binding in bindings:
 assert tmux_keys == set('%"xHJKL[')
 assert {"key": "i", "with": "alt", "esc": "\0["} in bindings
 assert config["shell"]["program"] == "wsl.exe"
+mac_config = tomllib.loads((repo / ".config/rio/config.toml").read_text())
+assert {"key": "i", "with": "alt", "esc": "\0["} in mac_config["bindings"]["keys"]
 print("Rio Windows: unique shortcuts, Alt/AltGr separation and tmux commands OK")

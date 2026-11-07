@@ -50,6 +50,9 @@ des commandes tmux : les utiliser dans une session tmux active.
 `Préfixe` signifie appuyer sur `Ctrl+Espace`, relâcher, puis taper la touche.
 Sous Windows, utiliser **Alt gauche**, pas AltGr.
 
+La navigation accepte `Alt+h/j/k/l` directement et Préfixe puis `h/j/k/l`, pour
+rester compatible avec les anciennes configurations Rio déjà déployées.
+
 | Action                               | Rio Windows        | tmux dans tout terminal     |
 | ------------------------------------ | ------------------ | --------------------------- |
 | Focus gauche / bas / haut / droite   | `Alt+h/j/k/l`      | Préfixe puis `h/j/k/l`      |
@@ -85,6 +88,12 @@ En SSH, installer et recharger aussi `.tmux.conf` sur la machine distante : Rio
 envoie les mêmes touches, mais c'est le tmux distant qui les interprète. Une
 ancienne configuration peut encore associer Préfixe puis `l` à la liste des
 sessions au lieu du focus à droite. La liste reste accessible avec Préfixe puis `s`.
+
+La même `.tmux.conf` fonctionne sur Linux/WSL et macOS (tmux 3.4 ou plus récent).
+La configuration Rio Mac prévoit aussi `Option+i` pour le mode copie. Le yank
+atteint le presse-papier de la machine qui exécute Rio, même depuis un tmux en
+SSH : `Cmd+V` pour coller sur Mac. Les fichiers Rio restent propres à chaque OS
+(shell et raccourcis d'onglets différents) ; seule la configuration tmux est commune.
 
 Les onglets Rio restent accessibles avec `Alt` + touches AZERTY `& é " ' ( - è _ ç`
 (1 à 8, puis dernier onglet), `Ctrl+Tab` / `Ctrl+Shift+Tab`, ou `Ctrl+PageUp/PageDown`.

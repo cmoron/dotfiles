@@ -15,6 +15,8 @@ args = ["--login"]
 # caractères réels (et non "1".."9", qui exigeraient Shift sur AZERTY).
 [bindings]
 keys = [
+  # Option+i : même mode copie tmux que sur Windows, sans dépendre du layout.
+  { key = "i", with = "alt", esc = "\u0000[" },
   { key = "&", with = "super", action = "SelectTab(0)" },  # Cmd + touche 1
   { key = "é", with = "super", action = "SelectTab(1)" },  # Cmd + touche 2
   { key = '"', with = "super", action = "SelectTab(2)" },  # Cmd + touche 3
