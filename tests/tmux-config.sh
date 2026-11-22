@@ -29,7 +29,7 @@ binding() {
 }
 
 test "$(tmux -L "$socket" show-options -gwv mode-keys)" = vi
-test "$(tmux -L "$socket" show-options -sv set-clipboard)" = external
+test "$(tmux -L "$socket" show-options -sv set-clipboard)" = on
 test "$(binding M-i root)" = 'copy-mode'
 test "$(binding v copy-mode-vi)" = 'send-keys -X begin-selection'
 test "$(binding y copy-mode-vi)" = 'send-keys -X copy-selection-and-cancel'
